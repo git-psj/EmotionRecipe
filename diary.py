@@ -6,7 +6,7 @@ import requests
 import json
 
 # # secrets.toml에서 Firebase 자격 증명 정보 가져오기
-firebase_credentials = {
+st.session_state.firebase_credentials = {
     "type": st.secrets["firebase"]["type"],
     "project_id": st.secrets["firebase"]["project_id"],
     "private_key_id": st.secrets["firebase"]["private_key_id"],
