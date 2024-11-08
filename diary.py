@@ -24,7 +24,7 @@ st.session_state.firebase_credentials = {
 
 # # Firebase 초기화 중복 방지
 if not firebase_admin._apps:
-    cred = credentials.Certificate(firebase_credentials)
+    cred = credentials.Certificate(st.session_state.firebase_credentials)
     firebase_admin.initialize_app(cred)
 
 # Firestore 초기화
