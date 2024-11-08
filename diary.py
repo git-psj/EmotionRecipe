@@ -16,7 +16,10 @@ st.session_state.firebase_credentials = {
     "auth_uri": st.secrets["firebase"]["auth_uri"],
     "token_uri": st.secrets["firebase"]["token_uri"],
     "auth_provider_x509_cert_url": st.secrets["firebase"]["auth_provider_x509_cert_url"],
-    "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"]
+    "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"],
+    "universe_domain" : st.secrets["firebase"]["universe_domain"],
+    "apiKey" : st.secrets["firebase"]["apiKey"],
+    "storageBucket": st.secrets["firebase"]["storageBucket"]
 }
 
 # # Firebase 초기화 중복 방지
