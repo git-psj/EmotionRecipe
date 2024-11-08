@@ -27,10 +27,6 @@ if not firebase_admin._apps:
 # Firestore 초기화
 st.session_state.db = firestore.client()
 
-
-with open('firebase_credentials.json') as f:
-    st.session_state.firebase_credentials = json.load(f)
-
 # 회원가입 처리 함수
 def register_user(email, password, nickname, age_group, gender, address):
     try:
