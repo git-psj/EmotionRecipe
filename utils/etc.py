@@ -9,22 +9,21 @@ from utils.emotion_functions import analyze_emotion
 
 def get_firebase_client():
     try:
-        with open('./firebase_credentials.json') as f:
-            st.session_state.firebase_credentials = {
-                "type": st.secrets["firebase"]["type"],
-                "project_id": st.secrets["firebase"]["project_id"],
-                "private_key_id": st.secrets["firebase"]["private_key_id"],
-                "private_key": st.secrets["firebase"]["private_key"].replace('\\n', '\n'),
-                "client_email": st.secrets["firebase"]["client_email"],
-                "client_id": st.secrets["firebase"]["client_id"],
-                "auth_uri": st.secrets["firebase"]["auth_uri"],
-                "token_uri": st.secrets["firebase"]["token_uri"],
-                "auth_provider_x509_cert_url": st.secrets["firebase"]["auth_provider_x509_cert_url"],
-                "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"],
-                "universe_domain" : st.secrets["firebase"]["universe_domain"],
-                "apiKey" : st.secrets["firebase"]["apiKey"],
-                "storageBucket": st.secrets["firebase"]["storageBucket"]
-            }
+        st.session_state.firebase_credentials = {
+            "type": st.secrets["firebase"]["type"],
+            "project_id": st.secrets["firebase"]["project_id"],
+            "private_key_id": st.secrets["firebase"]["private_key_id"],
+            "private_key": st.secrets["firebase"]["private_key"].replace('\\n', '\n'),
+            "client_email": st.secrets["firebase"]["client_email"],
+            "client_id": st.secrets["firebase"]["client_id"],
+            "auth_uri": st.secrets["firebase"]["auth_uri"],
+            "token_uri": st.secrets["firebase"]["token_uri"],
+            "auth_provider_x509_cert_url": st.secrets["firebase"]["auth_provider_x509_cert_url"],
+            "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"],
+            "universe_domain" : st.secrets["firebase"]["universe_domain"],
+            "apiKey" : st.secrets["firebase"]["apiKey"],
+            "storageBucket": st.secrets["firebase"]["storageBucket"]
+        }
         # Firebase 초기화 중복 방지
         if not firebase_admin._apps:
             cred = credentials.Certificate('./firebase_credentials.json')
