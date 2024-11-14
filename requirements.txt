@@ -5,6 +5,6 @@ langchain
 chromadb
 unstructured
 requests
-plotly
+plotly>=5.0,<5.14
 openai
 re
