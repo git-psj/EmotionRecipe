@@ -53,7 +53,7 @@ def parse_response(response, date, uemail):
         recommend_and_save_solution(st.session_state.decoded_token['email'], date, match.group(1), int(match.group(2)))
     
 def analyze_emotion(text, date):
-    openai_api_key = OPEN_API_KEY
+    openai_api_key = st.secrets['open_api_key']
   
 
     # 플루치크의 감정의 바퀴의 기본감정
