@@ -140,14 +140,18 @@ def get_latest_diary_and_emotion(user_email):
     except Exception as e:
         st.error("저장된 일기가 없습니다.")
 
-# 솔루션 페이지 함수
-def display_solution_page():
-    st.title("솔루션 페이지")
-    
+
+#url 분석
+def get_token_date():
     # URL에서 날짜 정보 가져오기
     date = st.query_params.get("id", None)
     # decoded_token에서 이메일 정보 가져오기
     token = st.query_params.get('token', None)
+    return date, token
+
+# 솔루션 페이지 함수
+def display_solution_page(date, token):
+    st.title("솔루션 페이지")
     if token is None and date is None:
         try: # 솔루션 페이지를 눌렀을 때
             user_email = st.session_state.decoded_token['email']
