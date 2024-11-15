@@ -5,12 +5,7 @@ import plotly.graph_objects as go
 from utils.mypage_functions import verify_password, mypage
 from utils.etc import get_firebase_client, main
 
-if "db" not in st.session_state:
-    st.session_state.db = get_firebase_client()
-if "pwCheck" not in st.session_state:
-    st.session_state.pwCheck = 0
-if "page" not in st.session_state:
-    st.session_state.page = "login"
+
 if not "id_token" in st.session_state:
     main()
 
