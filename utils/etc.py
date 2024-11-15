@@ -32,6 +32,24 @@ def get_firebase_client():
 
 # 메인 페이지 설정
 def main():
+    # 초기 상태 설정
+    if "current_year" not in st.session_state:
+        st.session_state.current_year = datetime.today().year
+    if "current_month" not in st.session_state:
+        st.session_state.current_month = datetime.today().month
+    if "selected_date" not in st.session_state:
+        st.session_state.selected_date = None
+    if "alert_message" not in st.session_state:
+        st.session_state.alert_message = ""  # 알림 메시지 변수 초기화
+    if "emotion_data" not in st.session_state:
+        st.session_state.emotion_data = {}  # 알림 메시지 변수 초기화
+    # 페이지 상태가 없으면 기본값을 설정
+    if "page" not in st.session_state:
+        st.session_state.page = "login"
+    
+    if not "id_token" in st.session_state and st.session_state.page != "signup":
+        st.session_state.page = "login"
+    
     if "id_token" in st.session_state:
         go_logout()
         diary_page()
