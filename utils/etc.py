@@ -34,7 +34,7 @@ def get_firebase_client():
 def main():
     if "id_token" in st.session_state:
         go_logout()
-        diary_page()
+        st.session_state.page = "diary"
     else:
         # 페이지 상태에 따른 조건부 렌더링
         # 버튼을 클릭 시 페이지 상태를 변경하고 다시 렌더링
