@@ -12,5 +12,3 @@ st.session_state.pwCheck = 0
 with st.spinner("솔루션 정보를 불러오는 중..."):
     # 솔루션 페이지 함수 호출
     display_solution_page()
-    if not "id_token" in st.session_state:
-        main()
