@@ -47,6 +47,10 @@ def main():
     # 페이지 상태가 없으면 기본값을 설정
     if "page" not in st.session_state:
         st.session_state.page = "login"
+        
+    if "db" not in st.session_state:
+        st.session_state.db = get_firebase_client()
+    st.session_state.pwCheck = 0
     
     if not "id_token" in st.session_state and st.session_state.page != "signup":
         st.session_state.page = "login"
