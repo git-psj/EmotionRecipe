@@ -4,9 +4,6 @@ from urllib.parse import urlencode
 from utils.diary_functions import showDiaries
 from utils.etc import get_firebase_client, main
 
-if "db" not in st.session_state:
-    st.session_state.db = get_firebase_client()
-st.session_state.pwCheck = 0
 if not "id_token" in st.session_state:
     main()
 
