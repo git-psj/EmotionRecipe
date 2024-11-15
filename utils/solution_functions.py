@@ -106,6 +106,7 @@ def get_diary_and_emotion(date, user_email):
 
     # 일기 데이터 가져오기
     diary_doc = diaries_ref.document(date).get()
+    st.write(date)
     diary_data = diary_doc.to_dict() if diary_doc.exists else '내용없음'
 
     # 감정 데이터 가져오기
@@ -148,22 +149,22 @@ def display_solution_page():
     # decoded_token에서 이메일 정보 가져오기
     token = st.query_params.get('token', None)
     if token is None and date is None:
-        try: # 솔루션 페이지를 눌렀을 때
-            user_email = st.session_state.decoded_token['email']
-            date, diary_data, emotion_data, solution_data = get_latest_diary_and_emotion(user_email)
-        except:
-            st.error("유효하지 않은 토큰입니다.")  
+        if not "id_token" in st.session_state:
+            main()
+        else:
+            try: # 솔루션 페이지를 눌렀을 때
+                user_email = st.session_state.decoded_token['email']
+                date, diary_data, emotion_data, solution_data = get_latest_diary_and_emotion(user_email)
+            except:
+                st.error("유효하지 않은 토큰입니다.")
     else:
         # URL에서 받은 토큰을 디코딩
         try:
             st.session_state.id_token = token
             decoded_token = jwt.decode(token, options={"verify_signature": False})
-            st.write(decoded_token)
             st.session_state.decoded_token = decoded_token
             user_email = st.session_state.decoded_token['email']            
-            if user_email:
-                st.write(f"사용자 이메일: {user_email}")
-            else:
+            if not user_email:
                 st.error("이메일 정보가 없습니다.")
         except jwt.ExpiredSignatureError:
             st.error("토큰이 만료되었습니다.")
