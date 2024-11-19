@@ -142,20 +142,8 @@ def diary_popup(selected_date):
                 # 내용 입력
                 content = st.text_area("내용", height=100)
                 # 이미지 업로드
-                # uploaded_image = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"])
-                # uploaded_image = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"], label_visibility="collapsed")
-                # st.markdown("""
-                #     <style>
-                #     .stFileUploader button {
-                #         width: 120px;
-                #         height: 35px;
-                #     }
-                #     </style>
-                #     """, unsafe_allow_html=True)
-                
-                # 파일 업로드
-                uploaded_file = st.file_uploader("", type=["png", "jpg", "jpeg"], label_visibility="collapsed")
-                
+                uploaded_image = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"])
+            
                 css = '''
                 <style>
                     [data-testid='stFileUploader'] {
