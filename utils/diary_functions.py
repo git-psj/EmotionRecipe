@@ -156,32 +156,27 @@ def diary_popup(selected_date):
                 # 파일 업로드
                 uploaded_file = st.file_uploader("", type=["png", "jpg", "jpeg"], label_visibility="collapsed")
                 
-                # 작은 버튼 스타일 적용
-                st.markdown("""
-                    <style>
-                    div.stFileUploader {
-                        display: flex;
-                        justify-content: center;
+                css = '''
+                <style>
+                    [data-testid='stFileUploader'] {
+                        width: max-content;
                     }
-                    input[type="file"] {
+                    [data-testid='stFileUploader'] section {
+                        padding: 0;
+                        float: left;
+                    }
+                    [data-testid='stFileUploader'] section > input + div {
                         display: none;
                     }
-                    label {
-                        display: inline-block;
-                        padding: 5px 10px;
-                        background-color: #007bff;
-                        color: white;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        font-size: 12px;
+                    [data-testid='stFileUploader'] section + div {
+                        float: right;
+                        padding-top: 0;
                     }
-                    label:hover {
-                        background-color: #0056b3;
-                    }
-                    </style>
-                    <label for="file-upload">이미지 업로드</label>
-                    <input id="file-upload" type="file">
-                """, unsafe_allow_html=True)
+                
+                </style>
+                '''
+                
+                st.markdown(css, unsafe_allow_html=True)
                 
                 # 업로드 결과 확인
                 if uploaded_file:
