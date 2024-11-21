@@ -174,10 +174,8 @@ def diary_popup(selected_date):
                 # 폼 제출 버튼이 눌린 경우
                 if submit_button:
                     if content:
-                        st.session_state.alert_message = "일기가 성공적으로 저장되었습니다!"
-
-                        # 사용자 이메일 가져오기
                         
+                        # 사용자 이메일 가져오기                        
                         image_url = None
 
                         # 이미지가 업로드된 경우 Firebase Storage에 저장
@@ -198,7 +196,7 @@ def diary_popup(selected_date):
                             'timestamp': firestore.SERVER_TIMESTAMP
                         })
                         # 성공 메시지 출력
-                        st.success("일기가 저장되었습니다.")
+                        st.session_state.alert_message = "일기가 성공적으로 저장되었습니다!"
                         with st.spinner("감정 분석 중..."):
                             analyze_emotion(content, date)
                     else:
