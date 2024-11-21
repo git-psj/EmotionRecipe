@@ -142,7 +142,7 @@ def diary_popup(selected_date):
                 # 내용 입력
                 content = st.text_area("내용", height=100)
                 # 이미지 업로드
-                uploaded_file = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"])
+                uploaded_image = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"])
             
                 css = '''
                 <style>
@@ -167,8 +167,8 @@ def diary_popup(selected_date):
                 st.markdown(css, unsafe_allow_html=True)
                 
                 # 업로드 결과 확인
-                if uploaded_file:
-                    st.image(uploaded_file, caption="업로드된 이미지")
+                if uploaded_image:
+                    st.image(uploaded_image, caption="업로드된 이미지")
 
 
                 # 폼 제출 버튼이 눌린 경우
