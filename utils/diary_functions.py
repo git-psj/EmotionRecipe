@@ -151,7 +151,7 @@ def diary_popup(selected_date):
                 st.markdown(
                     f"""
                     <a href="{detail_page_url}" target="_self">
-                        <button style="background-color: #white; color: gray; border: 2px solid gray; border-radius: 10px; padding: 10px 20px; text-align: center; 
+                        <button style="background-color: #white; color: gray; border: 2px solid gray; border-radius: 10px; padding: 10px 20px; text-align: center; margin:10px auto; 
                         text-decoration: none; font-size: 16px; margin: 4px 2px; cursor: pointer;">
                             결과 조회하러가기
                         </button>
