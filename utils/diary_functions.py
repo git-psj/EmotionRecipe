@@ -129,9 +129,9 @@ def diary_popup(selected_date):
             </style>
             """, unsafe_allow_html=True)
         
-        with st.container():
-            st.markdown('<button class="left-align">왼쪽 버튼</button>', unsafe_allow_html=True)
-            st.markdown('<button class="right-align">오른쪽 버튼</button>', unsafe_allow_html=True)
+            with st.container():
+                st.markdown('<button class="left-align">왼쪽 버튼</button>', unsafe_allow_html=True)
+                st.markdown('<button class="right-align">오른쪽 버튼</button>', unsafe_allow_html=True)
 
             # 날짜와 내용을 위한 열 레이아웃 설정
             col1, col2 = st.columns([5, 3])
