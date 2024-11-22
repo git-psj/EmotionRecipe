@@ -191,7 +191,7 @@ def display_solution_page(date, token):
         diary_data, emotion_data, solution_data = get_diary_and_emotion(date, user_email)
 
     # 페이지 레이아웃 설정 (좌우 컬럼)
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns([1, 0.05, 1], gap="small")
 
     # 좌측: 일기 내용 표시
     with col1:
