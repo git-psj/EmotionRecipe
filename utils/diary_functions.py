@@ -131,7 +131,9 @@ def diary_popup(selected_date):
         
             with st.container():
                 st.markdown('<button class="left-align">왼쪽 버튼</button>', unsafe_allow_html=True)
-                st.markdown('<button class="right-align">오른쪽 버튼</button>', unsafe_allow_html=True)
+                st.markdown('<div class="right-align">', unsafe_allow_html=True)
+                submit_button = st.form_submit_button(label="삭제")
+                st.markdown('</div>', unsafe_allow_html=True)
 
             # 날짜와 내용을 위한 열 레이아웃 설정
             col1, col2 = st.columns([5, 3])
