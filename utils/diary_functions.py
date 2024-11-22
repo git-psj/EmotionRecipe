@@ -123,14 +123,14 @@ def diary_popup(selected_date):
                 """
                 <style>
                 .stWrite {
-                    margin-bottom: 5px;
+                    margin-bottom: 0px;
                 }
                 .stButton>button { 
                     margin-top: 5px; 
                     margin-bottom: 5px;
                 }
                 .stTextArea>textarea {
-                    margin-top: 5px;
+                    margin-top: 0px;
                     margin-bottom: 0px;
                 }
                 </style>
