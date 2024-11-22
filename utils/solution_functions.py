@@ -163,6 +163,23 @@ def get_token_date():
     token = st.query_params.get('token', None)
     return date, token
 
+# 결과 보여주기
+def display_content(url):
+    if url.endswith(('.jpg', '.png', '.jpeg', '.gif', '.bmp', '.webp')):
+        # 이미지 표시
+        st.image(url, caption="이미지 콘텐츠")
+    elif "youtube.com" in url or "youtu.be" in url:
+        # YouTube 동영상 표시
+        st.video(url)
+    else:
+        # 기타 링크 iframe 삽입
+        iframe_code = f"""
+        <iframe width="560" height="315" src="{url}" frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen></iframe>
+        """
+        st.markdown(iframe_code, unsafe_allow_html=True)
+
 # 솔루션 페이지 함수
 def display_solution_page(date, token):
     st.title("감정 레시피")
@@ -224,6 +241,9 @@ def display_solution_page(date, token):
 
     # 우측: 솔루션 표시
     with col2:
+        # 테스트 URL
+        test_url = "https://store.kyobobook.co.kr/_next/image?url=https%3A%2F%2Fcontents.kyobobook.co.kr%2Fsih%2Ffit-in%2F144x222%2Fpdt%2F9788997575169.jpg&w=3840&q=80"
+        display_content(test_url)
         st.subheader(f"{emoticon}\t{emotion}")
         st.write(emotion_data.get("평가", ""))
         try:
