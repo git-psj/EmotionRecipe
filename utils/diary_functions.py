@@ -149,7 +149,6 @@ def diary_popup(selected_date):
                 st.write("ㅅㄷ")
                 query_params = urlencode({"id": date, "token": st.session_state.id_token})
                 detail_page_url = f"/solution_page?{query_params}"
-                st.write("ㅅㄷ")
                 st.markdown(
                     f"""
                     <a href="{detail_page_url}" target="_self">
@@ -158,10 +157,7 @@ def diary_popup(selected_date):
                             결과 조회하러가기
                         </button>
                     </a>
-                    """,
-                    unsafe_allow_html=True
-                )
-                st.write("ㅅㄷ")
+                    """, unsafe_allow_html=True)
             else:
                 # 내용 입력
                 content = st.text_area("내용", height=100)
@@ -187,18 +183,15 @@ def diary_popup(selected_date):
                 
                 </style>
                 '''
-                
                 st.markdown(css, unsafe_allow_html=True)
                 
                 # 업로드 결과 확인
                 if uploaded_image:
                     st.image(uploaded_image, caption="업로드된 이미지")
 
-
                 # 폼 제출 버튼이 눌린 경우
                 if submit_button:
-                    if content:
-                        
+                    if content:                        
                         # 사용자 이메일 가져오기                        
                         image_url = None
 
