@@ -37,6 +37,7 @@ def parse_response(response, date, uemail):
             "근거 문장": [],  # 근거 문장을 담을 리스트
             "평가": match.group(match.lastindex)  # 평가 항목을 추가
         }
+        st.session_state.emotion_data[date] = emotions[match.group(1)]
         
         # 근거 문장을 찾기 위한 추가 패턴
         reason_pattern = r"근거 문장\d : \"(.+?)\""
