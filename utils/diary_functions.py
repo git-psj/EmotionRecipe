@@ -112,6 +112,8 @@ def diary_popup(selected_date):
     # 날짜가 선택된 경우
     if selected_date:
         date = selected_date
+        doc_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries').document(date)
+        doc = doc_ref.get()
         
         # Form 사용
         with st.form(key='diary_form', clear_on_submit=True):
@@ -121,10 +123,11 @@ def diary_popup(selected_date):
                 st.write(f"##### {date}")            
             # 폼 내에서 저장 버튼 추가
             with col2:
-                submit_button = st.form_submit_button(label="저장")
-
-            doc_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries').document(date)
-            doc = doc_ref.get()
+                if doc.exists:
+                    submit_button = st.form_submit_button(label="삭제")
+                else:
+                    submit_button = st.form_submit_button(label="저장")
+            
 
             if doc.exists:
                 # 문서 데이터가 있으면 출력
