@@ -228,9 +228,10 @@ def display_solution_page(date, token):
         st.write(emotion_data.get("평가", ""))
         try:
             st.write(f"## 🔍추천 활동")
-            try:
-                recommended_activity = solution_data.get("recommended_activity")
-                sub_activity = solution_data.get("sub_activity")
+
+            recommended_activity = solution_data.get("recommended_activity")
+            sub_activity = solution_data.get("sub_activity")
+            if sub_activity != '':
                 st.write(f"{recommended_activity} - {sub_activity}")
                 # URL이 YouTube 링크인지 확인
                 if "youtube.com" in url or "youtu.be" in url:
@@ -245,7 +246,7 @@ def display_solution_page(date, token):
                     """
                 # st.markdown()을 사용하여 HTML 코드 삽입
                 st.markdown(iframe_code, unsafe_allow_html=True)
-            except:
+            else:
                 st.write(f"{recommended_activity}")
         except:
             st.info("해당 감정에 대한 솔루션이 없습니다.")
