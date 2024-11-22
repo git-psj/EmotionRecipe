@@ -27,7 +27,7 @@ def register_user(email, password, nickname, age_group, gender):
 
 # 회원가입 페이지
 def signup_page():
-    st.title("회원가입")
+    st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 회원가입</h3>", unsafe_allow_html=True)
     email = st.text_input("이메일")
     password = st.text_input("비밀번호", type="password")
     password_confirm = st.text_input("비밀번호 확인", type="password")
@@ -65,7 +65,7 @@ def sign_in_with_email_and_password(email, password):
         
 # 로그인 페이지
 def login_page():
-    st.title("로그인 페이지")
+    st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 로그인</h3>", unsafe_allow_html=True)
     email = st.text_input("이메일")
     password = st.text_input("비밀번호", type="password")
 
