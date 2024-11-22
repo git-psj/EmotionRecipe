@@ -151,8 +151,8 @@ def diary_popup(selected_date):
                     f"""
                     <div style="text-align: center;">
                         <a href="{detail_page_url}" target="_self">
-                            <button style="background-color: white; color: gray; border: 2px solid gray; border-radius: 10px; 
-                            margin: 5px auto; padding: 10px 20px; text-align: center;
+                            <button style="background-color: lightgray; color: gray; border: 2px solid gray; border-radius: 10px; 
+                            margin: 20px auto; padding: 10px 20px; text-align: center;
                             text-decoration: none; font-size: 15px; cursor: pointer;">
                                 결과 조회하러가기
                             </button>
