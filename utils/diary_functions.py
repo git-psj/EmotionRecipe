@@ -133,7 +133,6 @@ def diary_popup(selected_date):
                 else:
                     submit_button = st.form_submit_button(label="저장")
             
-
             if doc.exists:
                 # 문서 데이터가 있으면 출력
                 diary_data = doc.to_dict()
@@ -151,8 +150,9 @@ def diary_popup(selected_date):
                 st.markdown(
                     f"""
                     <a href="{detail_page_url}" target="_self">
-                        <button style="background-color: #white; color: gray; border: 2px solid gray; border-radius: 10px; padding: 10px 20px; text-align: center; width:80%; 
-                        text-decoration: none; font-size: 14px; margin: 4px 2px; cursor: pointer;">
+                        <button style="background-color: #white; color: gray; border: 2px solid gray; border-radius: 10px; 
+                        margin: 5px auto; padding: 10px 20px; text-align: center; width:80%; 
+                        text-decoration: none; font-size: 15px; margin: 4px 2px; cursor: pointer;">
                             결과 조회하러가기
                         </button>
                     </a>
