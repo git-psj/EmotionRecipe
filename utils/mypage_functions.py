@@ -66,7 +66,6 @@ def delete_user_account(email):
 
 # 마이페이지 함수
 def mypage(email):
-    st.title("마이페이지")
     user_info = get_user_info(email)
     
     if user_info:
