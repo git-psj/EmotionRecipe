@@ -118,9 +118,18 @@ def diary_popup(selected_date):
         # Form 사용
         with st.form(key='diary_form', clear_on_submit=True):
             # 날짜와 내용을 위한 열 레이아웃 설정
-            col1, col2 = st.columns([5, 2])
+            col1, col2 = st.columns([3, 1])
+            st.markdown(
+                """
+                <style>
+                .stWrite {
+                    margin-right: 0px;
+                }
+                </style>
+                """, unsafe_allow_html=True
+            )
             with col1:
-                st.write(f"##### {date}")          
+                st.write(f"##### {date}", key="stWrite")          
             # 폼 내에서 저장 버튼 추가
             with col2:
                 if doc.exists:
