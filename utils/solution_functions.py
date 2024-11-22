@@ -121,7 +121,6 @@ def get_diary_and_emotion(date, user_email):
 
     # 일기 데이터 가져오기
     diary_doc = diaries_ref.document(date).get()
-    st.write(date)
     diary_data = diary_doc.to_dict() if diary_doc.exists else '내용없음'
 
     # 감정 데이터 가져오기
@@ -166,7 +165,8 @@ def get_token_date():
 
 # 솔루션 페이지 함수
 def display_solution_page(date, token):
-    st.title("솔루션 페이지")
+    st.title("감정 레시피")
+    st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 결과 확인하기</h3>", unsafe_allow_html=True)
     if token is None and date is None:
         try: # 솔루션 페이지를 눌렀을 때
             user_email = st.session_state.decoded_token['email']
