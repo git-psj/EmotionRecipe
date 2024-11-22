@@ -120,7 +120,7 @@ def diary_popup(selected_date):
             # 날짜와 내용을 위한 열 레이아웃 설정
             col1, col2 = st.columns([3, 1])
             with col1:
-                st.write(f"##### {date}")            
+                st.markdown(f"##### {date}", unsafe_allow_html=True)           
             # 폼 내에서 저장 버튼 추가
             with col2:
                 if doc.exists:
