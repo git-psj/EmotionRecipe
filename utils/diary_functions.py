@@ -125,6 +125,11 @@ def diary_popup(selected_date):
             with col2:
                 if doc.exists:
                     submit_button = st.form_submit_button(label="삭제")
+                    if submit_button:
+                        # 일기 삭제
+                        diary_ref.document(date).delete()
+                        st.success("일기가 삭제되었습니다.")
+                        st.session_state.selected_date = None  # 삭제 후 날짜 초기화
                 else:
                     submit_button = st.form_submit_button(label="저장")
             
