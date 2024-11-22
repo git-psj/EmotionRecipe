@@ -47,10 +47,10 @@ def get_activity_details(recommended_activity):
     
     # activity_detail_query가 None인 경우 처리
     if not activity_detail_query:
-        st.error(f"{recommended_activity} 활동에 대한 상세 정보를 찾을 수 없습니다.")
+        st.error(f"{recommended_activity} 활동에 대한 get_activity_details 정보를 찾을 수 없습니다.")
         return None
     
-    # 상세 정보 목록을 리스트로 변환하여 랜덤으로 하나 선택
+    # get_activity_details 정보 목록을 리스트로 변환하여 랜덤으로 하나 선택
     activity_details_list = [detail.to_dict() for detail in activity_detail_query]
     activity_detail = random.choice(activity_details_list)
     return activity_detail
@@ -70,20 +70,13 @@ def check_previous_solution(user_email, url):
 # 추천된 활동을 사용자의 DB에 저장하는 함수
 def save_solution_to_db(user_email, date, emotion, score, recommended_activity, activity_detail):
     solutions_ref = st.session_state.db.collection('users').document(user_email).collection('solutions').document(date)
-    if activity_detail == '':
-        sub_activity = ''
-        tags = ''
-        url = ''
-    else:
-        sub_activity = activity_detail.get('sub_activity')
-        tags = activity_detail.get('tags')
-        url = activity_detail.get('url')
+    
     # 저장할 솔루션 데이터
     solution_data = {
         "recommended_activity": recommended_activity,
-        "sub_activity": sub_activity,
-        "tags": tags,
-        "url": url
+        "sub_activity": activity_detail.get('sub_activity'),
+        "tags": activity_detail.get('tags'),
+        "url": activity_detail.get('url'),
     }
     
     # 솔루션 저장
@@ -96,7 +89,7 @@ def recommend_and_save_solution(user_email, date, emotion, score):
     recommended_activity = recommend_activity(emotion, score)
     
     if recommended_activity:      
-        # 3. 활동의 상세 정보 가져오기 (랜덤으로 선택)
+        # 3. 활동의 get_activity_details 정보 가져오기 (랜덤으로 선택)
         activity_detail = get_activity_details(recommended_activity)
         if activity_detail:
             url = activity_detail.get('url')
@@ -106,9 +99,6 @@ def recommend_and_save_solution(user_email, date, emotion, score):
                 activity_detail = get_activity_details(recommended_activity)
             else:
                 save_solution_to_db(user_email, date, emotion, score, recommended_activity, activity_detail)
-        else:
-            activity_detail = ''
-            save_solution_to_db(user_email, date, emotion, score, recommended_activity, activity_detail)
 
 
 # 일기랑 감정 가져오기
