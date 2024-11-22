@@ -18,6 +18,7 @@ def verify_password():
         if st.session_state.pwCheck == 0:
             return False
         else:
+            st.rerun()
             return True
             
 # 사용자 정보 가져오기
