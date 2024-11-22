@@ -59,7 +59,7 @@ def analyze_emotion(text, date):
   
     # 플루치크의 감정의 바퀴의 기본감정
     prompt = f"""
-    문장을 분석하여 [기쁨, 슬픔, 분노, 공포, 기대, 놀람, 신뢰, 혐오] 중 대표 감정 하나와 감정 수치를 추출하고, 근거 문장을 5개 이내로 찾아주세요.
+    문장을 분석하여 [기쁨, 슬픔, 분노, 공포, 기대, 놀람, 신뢰, 혐오] 중에서 대표 감정 하나와 감정 수치를 추출하고, 근거 문장을 5개 이내로 찾아주세요.
     답장은 상담사가 얘기하듯이 3문장입니다.
     입력된 문장: "{text}"
 
@@ -79,7 +79,7 @@ def analyze_emotion(text, date):
             api_key=openai_api_key
         )
         st.session_state.alert_message = "감정 분석 완료"
-        st.write(response)
+        st.write(response['choices'][0]['message']['content'])
         with st.spinner("감정 데이터 저장 중..."):
             parse_response(response['choices'][0]['message']['content'], date, st.session_state.decoded_token['email'])
     except Exception as e:
