@@ -146,9 +146,10 @@ def diary_popup(selected_date):
                     st.write("이미지가 없습니다.")
                     
                 st.write("작성 시간:", diary_data.get('timestamp', '시간 정보 없음'))
-
+                st.write("ㅅㄷ")
                 query_params = urlencode({"id": date, "token": st.session_state.id_token})
                 detail_page_url = f"/solution_page?{query_params}"
+                st.write("ㅅㄷ")
                 st.markdown(
                     f"""
                     <a href="{detail_page_url}" target="_self">
@@ -160,6 +161,7 @@ def diary_popup(selected_date):
                     """,
                     unsafe_allow_html=True
                 )
+                st.write("ㅅㄷ")
             else:
                 # 내용 입력
                 content = st.text_area("내용", height=100)
