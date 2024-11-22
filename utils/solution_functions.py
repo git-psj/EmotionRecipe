@@ -191,7 +191,7 @@ def display_solution_page(date, token):
         diary_data, emotion_data, solution_data = get_diary_and_emotion(date, user_email)
 
     # 페이지 레이아웃 설정 (좌우 컬럼)
-    col1, col2 = st.columns([1, 0.05, 1], gap="small")
+    col1, col2, col3 = st.columns([1, 0.05, 1], gap="small")
 
     # 좌측: 일기 내용 표시
     with col1:
@@ -221,8 +221,7 @@ def display_solution_page(date, token):
         st.markdown(highlighted_content, unsafe_allow_html=True)  # 일기 내용 표시 (수정 불가)
         if diary_data.get('image'):
             st.image(diary_data.get('image'))
-
-    # 우측: 솔루션 표시
+            
     with col2:
         st.markdown(
             """
@@ -240,6 +239,9 @@ def display_solution_page(date, token):
             unsafe_allow_html=True,
         )
         st.markdown("<div class='vertical-line'></div>", unsafe_allow_html=True)
+
+        # 우측: 솔루션 표시
+    with col3:
         st.subheader(f"{emoticon}\t{emotion}")
         st.write(emotion_data.get("평가", ""))
         try:
