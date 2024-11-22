@@ -35,14 +35,14 @@ def recommend_activity(emotion, score):
 
 # 활동에 대한 상세 정보를 랜덤으로 가져오는 함수
 def get_activity_details(recommended_activity):
-    activities_detail_ref = st.session_state.db.collection('activitiesDetail')
-    docs = activities_detail_ref.stream()
-
+    # 변수 초기화
+    activity_detail_query = None
+    
     for doc in docs:
-        diary = doc.to_dict()
         if doc.id == recommended_activity:
-            activity_detail_query = doc.get()
-
+            activity_detail_query = doc.to_dict()  # 필요한 데이터를 바로 가져옵니다.
+    
+    # activity_detail_query가 None인 경우 처리
     if not activity_detail_query:
         st.error(f"{recommended_activity} 활동에 대한 상세 정보를 찾을 수 없습니다.")
         return None
