@@ -107,6 +107,9 @@ def recommend_and_save_solution(user_email, date, emotion, score):
                 activity_detail = get_activity_details(recommended_activity)
             else:
                 save_solution_to_db(user_email, date, emotion, score, recommended_activity, activity_detail)
+        else:
+            save_solution_to_db(user_email, date, emotion, score, recommended_activity, '')
+            
 
 
 # 일기랑 감정 가져오기
