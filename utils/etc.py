@@ -30,9 +30,9 @@ def get_firebase_client():
         firebase_admin.initialize_app(cred)
 
     return firestore.client()
-
-# 메인 페이지 설정
-def main():
+    
+def setPage():
+    st.set_page_config(layout="wide")
     # 초기 상태 설정
     if "current_year" not in st.session_state:
         st.session_state.current_year = datetime.today().year
@@ -50,10 +50,15 @@ def main():
     
     if not "id_token" in st.session_state and st.session_state.page != "signup":
         st.session_state.page = "login"
-
-    st.title("감정 레시피")
+    
     if "id_token" in st.session_state:
         go_logout()
+    
+# 메인 페이지 설정
+def main():
+    setPage()
+    st.title("감정 레시피")
+    if "id_token" in st.session_state:
         diary_page()
     else:
         # 페이지 상태에 따른 조건부 렌더링
