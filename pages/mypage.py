@@ -14,6 +14,7 @@ if not "id_token" in st.session_state:
 
 else:
     st.title("감정 레시피")
+    st.write(":gray[마이페이지]")
     if st.session_state.pwCheck == 0:
         verify_password()
     else:
