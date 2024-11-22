@@ -17,10 +17,10 @@ def verify_password():
         st.session_state.pwCheck = sign_in_with_email_and_password(email, password)
         st.write(st.session_state.pwCheck)
         if st.session_state.pwCheck == 0:
-            return false
+            return False
         else:
             # st.rerun()
-            return true
+            return True
             
 # 사용자 정보 가져오기
 def get_user_info(email):
