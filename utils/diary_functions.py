@@ -146,13 +146,12 @@ def diary_popup(selected_date):
                     st.write("이미지가 없습니다.")
                     
                 st.write("작성 시간:", diary_data.get('timestamp', '시간 정보 없음'))
-                st.write("ㅅㄷ")
                 query_params = urlencode({"id": date, "token": st.session_state.id_token})
                 detail_page_url = f"/solution_page?{query_params}"
                 st.markdown(
                     f"""
                     <a href="{detail_page_url}" target="_self">
-                        <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; text-align: center; 
+                        <button style="background-color: #white; color: white; border: 2px solid gray; border-radius: 10px; padding: 10px 20px; text-align: center; 
                         text-decoration: none; font-size: 16px; margin: 4px 2px; cursor: pointer;">
                             결과 조회하러가기
                         </button>
