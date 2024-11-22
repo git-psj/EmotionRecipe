@@ -15,6 +15,7 @@ def verify_password():
     password = st.text_input("비밀번호 확인", type="password")
     if st.button("확인"):
         st.session_state.pwCheck = sign_in_with_email_and_password(email, password)
+        st.write(st.session_state.pwCheck)
         if st.session_state.pwCheck == 0:
             return false
         else:
