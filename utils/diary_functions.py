@@ -125,6 +125,7 @@ def diary_popup(selected_date):
                 .stWrite {
                     margin-right: 0px;
                 }
+                .stButton>button { margin-bottom: 0px; }
                 </style>
                 """, unsafe_allow_html=True
             )
