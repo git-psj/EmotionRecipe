@@ -121,7 +121,7 @@ def diary_popup(selected_date):
                 st.write(f"##### {date}")            
             
             with col2:
-                diary_ref = st.session_state.db.collection('users').document(user_email).collection('diaries')
+                diary_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries')
                 diary_doc = diary_ref.document(date).get()
     
                 if diary_doc.exists:
