@@ -70,13 +70,21 @@ def check_previous_solution(user_email, url):
 # 추천된 활동을 사용자의 DB에 저장하는 함수
 def save_solution_to_db(user_email, date, emotion, score, recommended_activity, activity_detail):
     solutions_ref = st.session_state.db.collection('users').document(user_email).collection('solutions').document(date)
-    
+
+    if activity_detail == '':
+        sub_activity = ''
+        tags = ''
+        url = ''
+    else:
+        sub_activity = activity_detail.get('sub_activity')
+        tags = activity_detail.get('tags')
+        url = activity_detail.get('url')
     # 저장할 솔루션 데이터
     solution_data = {
         "recommended_activity": recommended_activity,
-        "sub_activity": activity_detail.get('sub_activity'),
-        "tags": activity_detail.get('tags'),
-        "url": activity_detail.get('url'),
+        "sub_activity": sub_activity,
+        "tags": tags,
+        "url": url,
     }
     
     # 솔루션 저장
