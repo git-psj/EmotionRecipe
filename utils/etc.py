@@ -33,6 +33,7 @@ def get_firebase_client():
 
 # 메인 페이지 설정
 def main():
+    st.title("감정 레시피")
     # 초기 상태 설정
     if "current_year" not in st.session_state:
         st.session_state.current_year = datetime.today().year
