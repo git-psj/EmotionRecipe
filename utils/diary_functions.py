@@ -129,7 +129,7 @@ def diary_popup(selected_date):
                 """, unsafe_allow_html=True
             )
             with col1:
-                st.write(f"#### {date}", key="stWrite")          
+                st.write(f"##### {date}", key="stWrite")          
             # 폼 내에서 저장 버튼 추가
             with col2:
                 if doc.exists:
