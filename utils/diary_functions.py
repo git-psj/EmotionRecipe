@@ -121,10 +121,10 @@ def diary_popup(selected_date):
                 st.write(f"##### {date}")            
             
             with col2:
-                doc_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries').document(date)
-                doc = doc_ref.to_dict()
+                diary_ref = st.session_state.db.collection('users').document(user_email).collection('diaries')
+                diary_doc = diary_ref.document(date).get()
     
-                if doc.exists:
+                if diary_doc.exists:
                     submit_button = st.form_submit_button(label="삭제")
                     
                     # 문서 데이터가 있으면 출력
