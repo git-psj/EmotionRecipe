@@ -129,6 +129,10 @@ def diary_popup(selected_date):
                     margin-top: 5px; 
                     margin-bottom: 5px;
                 }
+                .stTextArea>textarea {
+                    margin-top: 5px;
+                    margin-bottom: 0px;
+                }
                 </style>
                 """, unsafe_allow_html=True
             )
