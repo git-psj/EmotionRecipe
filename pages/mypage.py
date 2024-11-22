@@ -14,7 +14,7 @@ if not "id_token" in st.session_state:
 
 else:
     st.title("감정 레시피")
-    st.subheader("-- :violet[마이페이지]")
+    st.markdown("<h2 style='color: lightgray;'>-- 마이페이지</h2>", unsafe_allow_html=True)
     if st.session_state.pwCheck == 0:
         verify_password()
     else:
