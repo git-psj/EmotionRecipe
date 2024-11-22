@@ -224,6 +224,22 @@ def display_solution_page(date, token):
 
     # 우측: 솔루션 표시
     with col2:
+        st.markdown(
+            """
+            <style>
+            .vertical-line {
+                border-left: 1px solid gray;
+                height: 100%;
+                position: absolute;
+                left: 50%;
+                margin-left: -0.5px;
+                top: 0;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown("<div class='vertical-line'></div>", unsafe_allow_html=True)
         st.subheader(f"{emoticon}\t{emotion}")
         st.write(emotion_data.get("평가", ""))
         try:
