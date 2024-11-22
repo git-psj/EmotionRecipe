@@ -13,7 +13,8 @@ if not "id_token" in st.session_state:
     main()
 
 else:
-    st.write("### 감정 통계 보기")
+    st.title("감정 레시피")
+    st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 감정통계보기</h3>", unsafe_allow_html=True)
 
     # 보기 옵션을 탭으로 구성
     tab1, tab2, tab3 = st.tabs(["주간 보기", "월별 보기", "연도별 보기"])
