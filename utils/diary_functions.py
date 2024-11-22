@@ -121,8 +121,7 @@ def diary_popup(selected_date):
             # 날짜와 내용을 위한 열 레이아웃 설정
             col1, col2 = st.columns([5, 3])
             with col1:
-                st.write(f"##### {date}", key="stWrite")          
-            # 폼 내에서 저장 버튼 추가
+                st.write(f"##### {date}", key="stWrite") ]
             with col2:
                 if doc.exists:
                     submit_button = st.form_submit_button(label="삭제")
@@ -147,6 +146,20 @@ def diary_popup(selected_date):
                     st.write("이미지가 없습니다.")
                     
                 st.write("작성 시간:", diary_data.get('timestamp', '시간 정보 없음'))
+
+                query_params = urlencode({"id": date, "token": st.session_state.id_token})
+                detail_page_url = f"/solution_page?{query_params}"
+                st.markdown(
+                    f"""
+                    <a href="{detail_page_url}" target="_self">
+                        <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; text-align: center; 
+                        text-decoration: none; font-size: 16px; margin: 4px 2px; cursor: pointer;">
+                            결과 조회하러가기
+                        </button>
+                    </a>
+                    """,
+                    unsafe_allow_html=True
+                )
             else:
                 # 내용 입력
                 content = st.text_area("내용", height=100)
