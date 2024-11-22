@@ -33,7 +33,6 @@ def get_firebase_client():
 
 # 메인 페이지 설정
 def main():
-    st.title("감정 레시피")
     # 초기 상태 설정
     if "current_year" not in st.session_state:
         st.session_state.current_year = datetime.today().year
@@ -51,7 +50,8 @@ def main():
     
     if not "id_token" in st.session_state and st.session_state.page != "signup":
         st.session_state.page = "login"
-    
+
+    st.title("감정 레시피")
     if "id_token" in st.session_state:
         go_logout()
         diary_page()
