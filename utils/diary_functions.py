@@ -121,7 +121,7 @@ def diary_popup(selected_date):
             # 날짜와 내용을 위한 열 레이아웃 설정
             col1, col2 = st.columns([5, 3])
             with col1:
-                st.write(f"##### {date}", key="stWrite") ]
+                st.write(f"##### {date}", key="stWrite")
             with col2:
                 if doc.exists:
                     submit_button = st.form_submit_button(label="삭제")
