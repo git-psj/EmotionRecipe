@@ -57,17 +57,15 @@ def parse_response(response, date, uemail):
 def analyze_emotion(text, date):
     openai_api_key = st.secrets['open_api_key']
   
-
     # 플루치크의 감정의 바퀴의 기본감정
-
     prompt = f"""
     문장을 분석하여 감정과 감정 수치를 추출하고, 근거 문장을 5개 이내로 찾아주세요.
     답장은 상담사가 얘기하듯이 3문장입니다.
-    감정은 기쁨, 슬픔, 분노, 공포, 기대, 놀람, 신뢰, 혐오 중 하나만 골라줘.
+    대표 감정은 [기쁨, 슬픔, 분노, 공포, 기대, 놀람, 신뢰, 혐오] 중 하나를 선택해.
     입력된 문장: "{text}"
 
     답변은 다음 형식으로 해주세요:
-    대표 감정 : [감정]
+    대표 감정 : [대표 감정]
     감정 수치 : [1-10]
     근거 문장1 : "[문장1]"
     근거 문장2 : "[문장2]"
@@ -86,6 +84,7 @@ def analyze_emotion(text, date):
             parse_response(response['choices'][0]['message']['content'], date, st.session_state.decoded_token['email'])
     except Exception as e:
         st.error(f"감정 분석 중 오류가 발생했습니다: {e}")
+        st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries').document(date).delete()
         return
 
 
