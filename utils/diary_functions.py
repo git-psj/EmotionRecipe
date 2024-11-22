@@ -117,6 +117,22 @@ def diary_popup(selected_date):
         
         # Form 사용
         with st.form(key='diary_form', clear_on_submit=True):
+            st.markdown(
+            """
+            <style>
+            .left-align {
+                float: left;
+            }
+            .right-align {
+                float: right;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+        
+        with st.container():
+            st.markdown('<button class="left-align">왼쪽 버튼</button>', unsafe_allow_html=True)
+            st.markdown('<button class="right-align">오른쪽 버튼</button>', unsafe_allow_html=True)
+
             # 날짜와 내용을 위한 열 레이아웃 설정
             col1, col2 = st.columns([5, 3])
             with col1:
