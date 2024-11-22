@@ -241,9 +241,6 @@ def display_solution_page(date, token):
 
     # 우측: 솔루션 표시
     with col2:
-        # 테스트 URL
-        test_url = "https://store.kyobobook.co.kr/_next/image?url=https%3A%2F%2Fcontents.kyobobook.co.kr%2Fsih%2Ffit-in%2F144x222%2Fpdt%2F9788997575169.jpg&w=3840&q=80"
-        display_content(test_url)
         st.subheader(f"{emoticon}\t{emotion}")
         st.write(emotion_data.get("평가", ""))
         try:
@@ -251,21 +248,15 @@ def display_solution_page(date, token):
 
             recommended_activity = solution_data.get("recommended_activity")
             sub_activity = solution_data.get("sub_activity")
-            if sub_activity != '':
-                st.write(f"{recommended_activity} - {sub_activity}")
-                # URL이 YouTube 링크인지 확인
-                if "youtube.com" in url or "youtu.be" in url:
-                    # YouTube 동영상일 경우 st.video() 사용
-                    st.video(url)
+            url = solution_data.get("url")
+            if url != '' :
+                if sub_activity != '':
+                    st.write(f"{recommended_activity}")
+                    display_content(url)
                 else:
-                    # 그 외의 경우 iframe으로 표시
-                    iframe_code = f"""
-                    <iframe width="560" height="315" src="{url}" frameborder="0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen></iframe>
-                    """
-                # st.markdown()을 사용하여 HTML 코드 삽입
-                st.markdown(iframe_code, unsafe_allow_html=True)
+                    st.write(f"{recommended_activity} - {sub_activity}")
+                    # URL이 YouTube 링크인지 확인
+                    display_content(url)
             else:
                 st.write(f"{recommended_activity}")
         except:
