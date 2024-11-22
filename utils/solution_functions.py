@@ -214,11 +214,17 @@ def display_solution_page(date, token):
         try:
             st.write(f"## 🔍추천 활동")
             st.write(f"{solution_data.get("recommended_activity")} - {solution_data.get("sub_activity")}")
-            # 유튜브 영상 URL (유튜브에서 제공하는 iframe embed URL 사용)
-            iframe_code = f"""
-            <iframe width="560" height="315" src="{solution_data.get("url")}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            """
-
+           # URL이 YouTube 링크인지 확인
+            if "youtube.com" in url or "youtu.be" in url:
+                # YouTube 동영상일 경우 st.video() 사용
+                st.video(url)
+            else:
+                # 그 외의 경우 iframe으로 표시
+                iframe_code = f"""
+                <iframe width="560" height="315" src="{url}" frameborder="0" 
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+                """
             # st.markdown()을 사용하여 HTML 코드 삽입
             st.markdown(iframe_code, unsafe_allow_html=True)
         except:
