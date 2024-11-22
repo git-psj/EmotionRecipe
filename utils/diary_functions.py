@@ -113,7 +113,7 @@ def diary_popup(selected_date):
     if selected_date:
         date = selected_date
         
-        # Form 사용
+        # 폼 사용
         with st.form(key='diary_form', clear_on_submit=True):
             # 날짜와 내용을 위한 열 레이아웃 설정
             col1, col2 = st.columns([3, 1])
@@ -121,6 +121,7 @@ def diary_popup(selected_date):
                 st.write(f"##### {date}")            
             
             with col2:
+                # Firestore에서 일기 확인
                 diary_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries')
                 diary_doc = diary_ref.document(date).get()
     
@@ -128,25 +129,24 @@ def diary_popup(selected_date):
                     submit_button = st.form_submit_button(label="삭제")
                     if submit_button:
                         # 일기 삭제
-                        diary_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries')
-                        diary_ref.document(st.session_state.selected_date).delete()
+                        diary_ref.document(date).delete()
                         st.success("일기가 삭제되었습니다.")
                         st.session_state.selected_date = None  # 삭제 후 날짜 초기화
                 else:
                     submit_button = st.form_submit_button(label="저장")
                     
-                    
                 # 문서 데이터가 있으면 출력
-                diary_data = doc.to_dict()
-                st.text_area(label="일기 내용", value=diary_data['content'])
-                
-                # 이미지 URL이 있으면 표시
-                if diary_data.get('image'):
-                    st.image(diary_data['image'], caption="업로드된 이미지")
-                else:
-                    st.write("이미지가 없습니다.")
+                if diary_doc.exists:
+                    diary_data = diary_doc.to_dict()
+                    st.text_area(label="일기 내용", value=diary_data['content'])
                     
-                st.write("작성 시간:", diary_data.get('timestamp', '시간 정보 없음'))
+                    # 이미지 URL이 있으면 표시
+                    if diary_data.get('image'):
+                        st.image(diary_data['image'], caption="업로드된 이미지")
+                    else:
+                        st.write("이미지가 없습니다.")
+                    
+                    st.write("작성 시간:", diary_data.get('timestamp', '시간 정보 없음'))
                 
             else:
                 # 내용 입력
@@ -154,6 +154,7 @@ def diary_popup(selected_date):
                 # 이미지 업로드
                 uploaded_image = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"])
             
+                # CSS 스타일링
                 css = '''
                 <style>
                     [data-testid='stFileUploader'] {
@@ -184,15 +185,10 @@ def diary_popup(selected_date):
                 # 폼 제출 버튼이 눌린 경우
                 if submit_button:
                     if content:
-                        
-                        # 사용자 이메일 가져오기                        
+                        # 이미지 업로드 처리
                         image_url = None
-
-                        # 이미지가 업로드된 경우 Firebase Storage에 저장
                         if uploaded_image:
                             bucket = storage.bucket(st.session_state.firebase_credentials['storageBucket'])
-
-                            # 고유한 파일 이름 생성 (사용자 이메일 + 날짜)
                             image_filename = f"{st.session_state.decoded_token['email']}_{date}_{uploaded_image.name}"
                             blob = bucket.blob(image_filename)
                             blob.upload_from_file(uploaded_image, content_type=uploaded_image.type)
@@ -200,11 +196,12 @@ def diary_popup(selected_date):
                             image_url = blob.public_url
 
                         # Firestore에 일기 저장
-                        doc_ref.set({
+                        diary_ref.document(date).set({
                             "content": content,
                             "image": image_url if uploaded_image else None,
                             'timestamp': firestore.SERVER_TIMESTAMP
                         })
+                        
                         # 성공 메시지 출력
                         st.session_state.alert_message = "일기가 성공적으로 저장되었습니다!"
                         with st.spinner("감정 분석 중..."):
