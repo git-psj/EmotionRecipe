@@ -88,7 +88,7 @@ def save_solution_to_db(user_email, date, emotion, score, recommended_activity, 
     }
     
     # 솔루션 저장
-    solutions_ref.add(solution_data)
+    solutions_ref.set(solution_data)
     st.success(f"{recommended_activity} 활동과 관련된 솔루션이 저장되었습니다.")
 
 # 감정과 점수에 맞는 활동을 추천하고 중복되지 않게 저장하는 함수
