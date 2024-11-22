@@ -124,7 +124,7 @@ def diary_popup(selected_date):
                 doc_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries').document(date)
                 doc = doc_ref.get()
     
-                if doc.exists:
+                if doc_ref.exists:
                     submit_button = st.form_submit_button(label="삭제")
                     if submit_button:
                         # 일기 삭제
