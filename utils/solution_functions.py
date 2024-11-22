@@ -22,7 +22,7 @@ def recommend_activity(emotion, score):
     activities_ref = st.session_state.db.collection('activities')
     
     # 감정과 score_range에 맞는 활동을 필터링하여 목록을 가져옴
-    activities_query = activities_ref.where("emotion", "==", emotion).where("score_range", "==", score_range).get()
+    activities_query = activities_ref.where("emotion", "==", emotion).where("score", "==", score_range).get()
     
     if not activities_query:
         st.error(f"해당 감정 {emotion}과 점수 범위 {score_range}에 맞는 활동을 찾을 수 없습니다.")
