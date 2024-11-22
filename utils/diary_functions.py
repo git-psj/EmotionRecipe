@@ -149,7 +149,7 @@ def diary_popup(selected_date):
                 detail_page_url = f"/solution_page?{query_params}"
                 st.markdown(
                     f"""
-                    <a href="{detail_page_url}" target="_self">
+                    <a href="{detail_page_url}" target="_self" style="text-align: center;">
                         <button style="background-color: #white; color: gray; border: 2px solid gray; border-radius: 10px; 
                         margin: 5px auto; padding: 10px 20px; text-align: center; width:80%; 
                         text-decoration: none; font-size: 15px; cursor: pointer;">
