@@ -126,12 +126,6 @@ def diary_popup(selected_date):
     
                 if doc_ref.exists:
                     submit_button = st.form_submit_button(label="삭제")
-                    if submit_button:
-                        # 일기 삭제
-                        diary_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries')
-                        diary_ref.document(st.session_state.selected_date).delete()
-                        st.success("일기가 삭제되었습니다.")
-                        st.session_state.selected_date = None  # 삭제 후 날짜 초기화
                     
                     # 문서 데이터가 있으면 출력
                     diary_data = doc.to_dict()
@@ -144,6 +138,12 @@ def diary_popup(selected_date):
                         st.write("이미지가 없습니다.")
                         
                     st.write("작성 시간:", diary_data.get('timestamp', '시간 정보 없음'))
+                    if submit_button:
+                        # 일기 삭제
+                        diary_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries')
+                        diary_ref.document(st.session_state.selected_date).delete()
+                        st.success("일기가 삭제되었습니다.")
+                        st.session_state.selected_date = None  # 삭제 후 날짜 초기화
                 else:
                     submit_button = st.form_submit_button(label="저장")
                     # 내용 입력
