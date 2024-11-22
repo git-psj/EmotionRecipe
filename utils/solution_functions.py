@@ -228,19 +228,24 @@ def display_solution_page(date, token):
         st.write(emotion_data.get("평가", ""))
         try:
             st.write(f"## 🔍추천 활동")
-            st.write(f"{solution_data.get("recommended_activity")} - {solution_data.get("sub_activity")}")
-           # URL이 YouTube 링크인지 확인
-            if "youtube.com" in url or "youtu.be" in url:
-                # YouTube 동영상일 경우 st.video() 사용
-                st.video(url)
-            else:
-                # 그 외의 경우 iframe으로 표시
-                iframe_code = f"""
-                <iframe width="560" height="315" src="{url}" frameborder="0" 
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen></iframe>
-                """
-            # st.markdown()을 사용하여 HTML 코드 삽입
-            st.markdown(iframe_code, unsafe_allow_html=True)
+            try:
+                recommended_activity = solution_data.get("recommended_activity")
+                sub_activity = solution_data.get("sub_activity")
+                st.write(f"{recommended_activity} - {sub_activity}")
+                # URL이 YouTube 링크인지 확인
+                if "youtube.com" in url or "youtu.be" in url:
+                    # YouTube 동영상일 경우 st.video() 사용
+                    st.video(url)
+                else:
+                    # 그 외의 경우 iframe으로 표시
+                    iframe_code = f"""
+                    <iframe width="560" height="315" src="{url}" frameborder="0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+                    """
+                # st.markdown()을 사용하여 HTML 코드 삽입
+                st.markdown(iframe_code, unsafe_allow_html=True)
+            except:
+                st.write(f"{recommended_activity}")
         except:
             st.info("해당 감정에 대한 솔루션이 없습니다.")
