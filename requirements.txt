@@ -6,4 +6,4 @@ chromadb
 unstructured
 requests
 plotly
-openai
+openai==0.28.1
