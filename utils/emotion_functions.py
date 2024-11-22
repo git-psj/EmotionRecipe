@@ -74,7 +74,7 @@ def analyze_emotion(text, date):
     """
     
     try:
-        response = openai.ChatCompletion.create(
+        response = openai.Chat.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
             api_key=openai_api_key
