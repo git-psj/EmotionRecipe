@@ -214,7 +214,7 @@ def diary_popup(selected_date):
                             image_url = blob.public_url
 
                         # Firestore에 일기 저장
-                        doc_ref.set({
+                        doc_ref.collection('diaries').document(date).set({
                             "content": content,
                             "image": image_url if uploaded_image else None,
                             'timestamp': firestore.SERVER_TIMESTAMP
