@@ -43,12 +43,11 @@ def get_activity_details(recommended_activity):
     
     for doc in docs:
         if doc.id == recommended_activity:
-            activity_detail_query = doc.collection('sub_activities').to_dict()  # 필요한 데이터를 바로 가져옵니다.
-            st.write(activity_detail_query)
-            
+            activity_detail_query = doc.to_dict()  # 필요한 데이터를 바로 가져옵니다.
+    
     # activity_detail_query가 None인 경우 처리
     if not activity_detail_query:
-        st.error(f"{recommended_activity} 활동에 대한 get_activity_details 정보를 찾을 수 없습니다.")
+        # st.error(f"{recommended_activity} 활동에 대한 get_activity_details 정보를 찾을 수 없습니다.")
         return None
     
     # get_activity_details 정보 목록을 리스트로 변환하여 랜덤으로 하나 선택
