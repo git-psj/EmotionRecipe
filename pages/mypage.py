@@ -3,7 +3,7 @@ from firebase_admin import credentials, firestore
 import plotly.graph_objects as go
 
 from utils.mypage_functions import verify_password, mypage
-from utils.etc import get_firebase_client, main
+from utils.etc import get_firebase_client, main, go_logout
 
 if "db" not in st.session_state:
     st.session_state.db = get_firebase_client()
@@ -14,6 +14,7 @@ if not "id_token" in st.session_state:
 else:
     st.title("감정 레시피")
     st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 마이페이지</h3>", unsafe_allow_html=True)
+    go_logout()
     if st.session_state.pwCheck == 0:
         verify_password()
     else:
