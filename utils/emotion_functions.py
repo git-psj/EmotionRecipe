@@ -28,6 +28,7 @@ def parse_response(response, date, uemail):
         '혐오': '🤬'
     }
     match = re.search(pattern, response, re.DOTALL)
+    st.session_state.alert_message = match.group(1)
     if match:
         # 기본 데이터 추출
         parsed_data = {
@@ -78,7 +79,7 @@ def analyze_emotion(text, date):
             messages=[{"role": "user", "content": prompt}],
             api_key=openai_api_key
         )
-        st.session_state.alert_message = "감정 분석 완료"
+        st.session_state.alert_message = f"감정 분석 완료"
         # st.write(response['choices'][0]['message']['content'])
         with st.spinner("감정 데이터 저장 중..."):
             parse_response(response['choices'][0]['message']['content'], date, st.session_state.decoded_token['email'])
