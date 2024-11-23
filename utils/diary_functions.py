@@ -129,6 +129,7 @@ def diary_popup(selected_date):
                         # 일기 삭제
                         doc_ref.delete()
                         st.session_state.alert_message = "일기가 삭제되었습니다."
+                         st.session_state.emotion_data[date] = ""
                         st.session_state.selected_date = None  # 삭제 후 날짜 초기화
                         st.rerun()
                 else:
