@@ -270,7 +270,7 @@ def display_solution_page(date, token):
             recommended_activity = solution_data.get("recommended_activity")
             sub_activity = solution_data.get("sub_activity")
             url = solution_data.get("url")
-            st.write(recommended_activity, sub_activity, url)
+            # st.write(recommended_activity, sub_activity, url)
             if url != '' :
                 if sub_activity != '':
                     st.write(f"{recommended_activity}")
