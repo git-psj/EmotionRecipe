@@ -42,18 +42,25 @@ def get_activity_details(recommended_activity):
     activity_detail_query = None
     
     for doc in docs:
-        st.write(doc.id)
-        if doc.id == recommended_activity:
-            activity_detail_query = doc.collection("sub_activities").stream()  # 필요한 데이터를 바로 가져옵니다.
-            # st.write(activity_detail_query)
+        if doc.id == recommended_activity:  # 문서명 비교
+            target_doc_ref = activities_detail_ref.document(doc.id)
+            break
+            
     # activity_detail_query가 None인 경우 처리
     if not activity_detail_query:
         # st.error(f"{recommended_activity} 활동에 대한 get_activity_details 정보를 찾을 수 없습니다.")
         return None
-    
-    # get_activity_details 정보 목록을 리스트로 변환하여 랜덤으로 하나 선택
-    activity_details_list = [detail.to_dict() for detail in activity_detail_query]
-    activity_detail = random.choice(activity_details_list)
+
+    # 하위 컬렉션 sub_activities 가져오기
+    sub_activities_ref = target_doc_ref.collection("sub_activities")
+    sub_activities_docs = list(sub_activities_ref.stream())
+
+    # 하위 컬렉션이 비어 있는 경우 처리
+    if not sub_activities_docs:
+        print(f'"{recommended_activity}" 문서의 하위 컬렉션이 비어 있습니다.')
+        return None
+
+    activity_detail = random.choice(sub_activities_docs)
     return activity_detail
 
 # 중복된 활동이 있는지 확인하는 함수
