@@ -130,6 +130,7 @@ def diary_popup(selected_date):
                         doc_ref.delete()
                         st.session_state.alert_message = "일기가 삭제되었습니다."
                         st.session_state.selected_date = None  # 삭제 후 날짜 초기화
+                        st.rerun()
                 else:
                     submit_button = st.form_submit_button(label="저장")
             
