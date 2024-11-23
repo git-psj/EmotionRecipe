@@ -85,6 +85,7 @@ def analyze_emotion(text, date):
     except Exception as e:
         st.error("분석을 실패했습니다.")
         st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries').document(date).delete()
+        st.session_state.emotion_data[date] = ""
         return
 
 
