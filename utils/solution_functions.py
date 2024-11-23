@@ -25,7 +25,6 @@ def recommend_activity(emotion, score):
     activities_query = activities_ref.where("emotion", "==", emotion).where("score", "==", score_range).get()
     
     if not activities_query:
-        st.error(f"해당 감정 {emotion}과 점수 범위 {score_range}에 맞는 활동을 찾을 수 없습니다.")
         return None
     
     # 활동 목록을 리스트로 변환하여 랜덤으로 하나 선택
@@ -89,7 +88,22 @@ def save_solution_to_db(user_email, date, emotion, score, recommended_activity, 
     
     # 솔루션 저장
     solutions_ref.set(solution_data)
-    st.success(f"{recommended_activity} 활동과 관련된 솔루션이 저장되었습니다.")
+    st.session_state.alert_message = "추천활동이 저장되었습니다."
+
+    query_params = urlencode({"id": date, "token": st.session_state.id_token})
+    detail_page_url = f"/solution_page?{query_params}"
+    st.markdown(
+        f"""
+        <div style="text-align: center;">
+            <a href="{detail_page_url}" target="_self">
+                <button style="background-color: #eee; color: gray; border: 1px solid lightgray; border-radius: 10px; 
+                margin: 20px auto; padding: 10px 20px; text-align: center;
+                text-decoration: none; font-size: 15px; cursor: pointer;">
+                    결과 조회하러가기
+                </button>
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
 
 # 감정과 점수에 맞는 활동을 추천하고 중복되지 않게 저장하는 함수
 def recommend_and_save_solution(user_email, date, emotion, score):
@@ -109,8 +123,6 @@ def recommend_and_save_solution(user_email, date, emotion, score):
                 save_solution_to_db(user_email, date, emotion, score, recommended_activity, activity_detail)
         else:
             save_solution_to_db(user_email, date, emotion, score, recommended_activity, '')
-            
-
 
 # 일기랑 감정 가져오기
 @st.cache_data(ttl=60*10)
