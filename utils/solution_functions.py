@@ -2,6 +2,7 @@ import random
 import jwt
 import streamlit as st
 from datetime import datetime
+from urllib.parse import urlencode
 
 # recommend_activity(emotion, score), get_activity_details(recommended_activity), check_previous_solution(user_email, url), display_solution_page(), get_latest_diary_and_emotion(user_email), get_diary_and_emotion(date, user_email), recommend_and_save_solution(user_email, emotion, score), save_solution_to_db(user_email, emotion, score, recommended_activity, activity_detail)
 
