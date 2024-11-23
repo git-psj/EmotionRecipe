@@ -49,7 +49,7 @@ def parse_response(response, date, uemail):
         # Firestore에 저장
         doc_ref = st.session_state.db.collection('users').document(uemail).collection('emotions').document(date)
         st.session_state.alert_message = "감정 저장 완료"
-        st.write(match.group(1))
+        # st.write(match.group(1))
         # 파싱된 데이터를 Firestore에 저장
         doc_ref.set(parsed_data)
         recommend_and_save_solution(st.session_state.decoded_token['email'], date, match.group(1), int(match.group(2)))
@@ -79,7 +79,7 @@ def analyze_emotion(text, date):
             api_key=openai_api_key
         )
         st.session_state.alert_message = "감정 분석 완료"
-        st.write(response['choices'][0]['message']['content'])
+        # st.write(response['choices'][0]['message']['content'])
         with st.spinner("감정 데이터 저장 중..."):
             parse_response(response['choices'][0]['message']['content'], date, st.session_state.decoded_token['email'])
     except Exception as e:
