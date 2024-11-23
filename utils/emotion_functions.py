@@ -83,7 +83,7 @@ def analyze_emotion(text, date):
         with st.spinner("감정 데이터 저장 중..."):
             parse_response(response['choices'][0]['message']['content'], date, st.session_state.decoded_token['email'])
     except Exception as e:
-        st.error(f"감정 분석 중 오류가 발생했습니다: {e}")
+        st.error("분석을 실패했습니다.")
         st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries').document(date).delete()
         return
 
