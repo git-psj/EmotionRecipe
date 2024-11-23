@@ -112,8 +112,8 @@ def diary_popup(selected_date):
     # 날짜가 선택된 경우
     if selected_date:
         date = selected_date
-        doc_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('diaries').document(date)
-        doc = doc_ref.get()
+        doc_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email'])
+        doc = doc_ref.collection('diaries').document(date).get()
         
         # Form 사용
         with st.form(key='diary_form', clear_on_submit=True):
@@ -127,7 +127,9 @@ def diary_popup(selected_date):
                     submit_button = st.form_submit_button(label="삭제")
                     if submit_button:
                         # 일기 삭제
-                        doc_ref.delete()
+                        doc_ref.collection('diaries').document(date).delete()
+                        doc_ref.collection('emtions').document(date).delete()
+                        doc_ref.collection('solutions').document(date).delete()
                         st.session_state.alert_message = "일기가 삭제되었습니다."
                         st.session_state.emotion_data[date] = ""
                         st.session_state.selected_date = None  # 삭제 후 날짜 초기화
