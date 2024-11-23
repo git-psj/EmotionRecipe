@@ -128,8 +128,10 @@ def diary_popup(selected_date):
                     if submit_button:
                         # 일기 삭제
                         doc_ref.collection('diaries').document(date).delete()
-                        doc_ref.collection('emtions').document(date).delete()
-                        doc_ref.collection('solutions').document(date).delete()
+                        if doc_ref.collection('emtions').document(date):
+                            doc_ref.collection('emtions').document(date).delete()
+                        if doc_ref.collection('solutions').document(date):
+                            doc_ref.collection('solutions').document(date).delete()
                         st.session_state.alert_message = "일기가 삭제되었습니다."
                         st.session_state.emotion_data[date] = ""
                         st.session_state.selected_date = None  # 삭제 후 날짜 초기화
