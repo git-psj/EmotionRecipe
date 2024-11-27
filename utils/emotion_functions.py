@@ -30,7 +30,7 @@ def parse_response(response, date, uemail):
     }
 
     match = re.search(pattern, response, re.DOTALL)
-
+    st.session_state.alert_message = match
     if match:
         # 기본 데이터 추출
         emotion = match.group(1)
