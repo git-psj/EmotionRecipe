@@ -51,13 +51,6 @@ def parse_response(response, date, uemail):
         }
         st.session_state.emotion_data[date] = emotions[match.group(1)]
         
-        # 근거 문장을 찾기 위한 추가 패턴
-        reason_pattern = r"근거 문장\d : \"(.+?)\""
-        reasons = re.findall(reason_pattern, response)
-        
-        # 근거 문장을 리스트에 추가
-        parsed_data["근거 문장"].extend(reasons)
-
         # Firestore에 저장
         doc_ref = st.session_state.db.collection('users').document(uemail).collection('emotions').document(date)
         st.session_state.alert_message = "감정 저장 완료"
