@@ -39,7 +39,7 @@ def parse_response(response, date, uemail):
         st.session_state.alert_message = emotion_score
         reasons = re.findall(r"근거 문장\d+: \"(.+?)\"", match.group(3))
         reply = match.group(5)
-        st.session_state.alert_message = reply
+        st.session_state.alert_message = reasons 
 
         # 파싱된 데이터 구조
         parsed_data = {
