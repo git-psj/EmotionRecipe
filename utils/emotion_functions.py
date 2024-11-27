@@ -13,6 +13,7 @@ from utils.solution_functions import recommend_and_save_solution
 #  parse_response(response, date, uemail), analyze_emotion(text, date), load_emotion_data(start_date, end_date),plot_emotion_data(start_date, end_date)
 
 def parse_response(response, date, uemail):
+    st.session_state.alert_message = f"감정 분석 시작"
     # 각 감정 요소에 대한 정규 표현식 패턴
     # 평가 부분을 추가하여, 해당 부분을 추출할 수 있도록 수정
     pattern = r"대표 감정 : (.+?)\n감정 수치 : (\d+)\n(?:근거 문장\d : \"(.+?)\"\n?)+답장 : \"(.+?)\""
