@@ -16,9 +16,8 @@ def parse_response(response, date, uemail):
     st.session_state.alert_message = f"감정 분석 시작"
     # 각 감정 요소에 대한 정규 표현식 패턴
     # 평가 부분을 추가하여, 해당 부분을 추출할 수 있도록 수정
+   # 감정 분석을 위한 패턴 정의
     pattern = r"대표 감정: (.+?)\s*감정 수치: (\d+)\s*((?:근거 문장\d+: \"(.+?)\"\s*)+)\s*답장: \"(.+?)\""
-
-    
     emotions = {
         '기쁨': '😁',
         '슬픔': '😭',
@@ -29,19 +28,25 @@ def parse_response(response, date, uemail):
         '신뢰': '🥰',
         '혐오': '🤬'
     }
+
     match = re.search(pattern, response, re.DOTALL)
-    if not match:
-        st.error("패턴이 일치하지 않습니다.")
-        return None
-    st.write(match.group(1))
+
     if match:
         # 기본 데이터 추출
+        emotion = match.group(1)
+        emotion_score = int(match.group(2))
+        reasons = re.findall(r"근거 문장\d+: \"(.+?)\"", match.group(3))
+        reply = match.group(5)
+
+        # 파싱된 데이터 구조
         parsed_data = {
-            "대표 감정": match.group(1),
-            "이모티콘" : emotions[match.group(1)],
-            "감정 수치": int(match.group(2)),  # 수치는 정수형으로 변환
-            "근거 문장": [],  # 근거 문장을 담을 리스트
-            "평가": match.group(match.lastindex)  # 평가 항목을 추가
+            "대표 감정": emotion,
+            "이모티콘": emotions.get(emotion, "❓"),  # 감정에 해당하는 이모티콘
+            "감정 수치": emotion_score,
+            "근거 문장1": reasons[0] if len(reasons) > 0 else "",
+            "근거 문장2": reasons[1] if len(reasons) > 1 else "",
+            "근거 문장3": reasons[2] if len(reasons) > 2 else "",
+            "답장": reply
         }
         st.session_state.emotion_data[date] = emotions[match.group(1)]
         
@@ -71,11 +76,11 @@ def analyze_emotion(text, date):
     입력된 문장: "{text}"
 
     답변은 다음 형식으로 해주세요:
-    대표 감정 : [감정]/
-    감정 수치 : [1-10]/
+    대표 감정 : [감정]
+    감정 수치 : [1-10]
     근거 문장1 : "[문장1]"
     근거 문장2 : "[문장2]"
-    근거 문장3 : "[문장3]"/
+    근거 문장3 : "[문장3]"
     답장 : "[답장]"
     """
     
