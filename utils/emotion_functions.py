@@ -82,7 +82,7 @@ def analyze_emotion(text, date):
             api_key=openai_api_key
         )
         st.session_state.alert_message = f"감정 분석 완료"
-        # st.write(response['choices'][0]['message']['content'])
+        st.write(response['choices'][0]['message']['content'])
         with st.spinner("감정 데이터 저장 중..."):
             parse_response(response['choices'][0]['message']['content'], date, st.session_state.decoded_token['email'])
     except Exception as e:
