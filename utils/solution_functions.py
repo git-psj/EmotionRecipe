@@ -38,6 +38,7 @@ def get_activity_details(recommended_activity):
     activities_detail_ref = st.session_state.db.collection('activitiesDetail')
     docs = list(activities_detail_ref.stream())
     st.write("상세 활동추천하기")
+    st.write(docs)
     
     # 변수 초기화
     activity_detail_query = None
