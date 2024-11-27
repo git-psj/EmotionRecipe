@@ -37,6 +37,7 @@ def recommend_activity(emotion, score):
 def get_activity_details(recommended_activity):
     activities_detail_ref = st.session_state.db.collection('activitiesDetail')
     docs = activities_detail_ref.stream()
+    st.write("상세 활동추천하기")
     
     # 변수 초기화
     activity_detail_query = None
@@ -120,7 +121,8 @@ def recommend_and_save_solution(user_email, date, emotion, score):
     # 1. 활동 추천 (랜덤으로 선택)
     recommended_activity = recommend_activity(emotion, score)
     
-    if recommended_activity:      
+    if recommended_activity:
+        st.write(recommended_activity)
         # 3. 활동의 get_activity_details 정보 가져오기 (랜덤으로 선택)
         activity_detail = get_activity_details(recommended_activity)
         if activity_detail:
