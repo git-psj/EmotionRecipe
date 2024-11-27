@@ -28,7 +28,7 @@ def parse_response(response, date, uemail):
         '혐오': '🤬'
     }
     match = re.search(pattern, response, re.DOTALL)
-    st.session_state.alert_message = match.group(1)
+    st.write(match.group(1))
     if match:
         # 기본 데이터 추출
         parsed_data = {
@@ -61,7 +61,7 @@ def analyze_emotion(text, date):
     # 플루치크의 감정의 바퀴의 기본감정
     prompt = f"""
     문장을 분석하여 감정과 감정 수치를 추출하고, 근거 문장을 5개 이내로 찾아줘.
-    감정은 [기쁨, 슬픔, 분노, 공포, 기대, 놀람, 신뢰, 혐오] 8개이고 그 외의 감정은 고려하지 마.
+    감정은 [기쁨, 슬픔, 분노, 공포, 기대, 놀람, 신뢰, 혐오] 8개이고 이 외의 감정은 고려하지 마.
     답장은 상담사가 얘기하듯이 공감과 위로의 3문장임.
     입력된 문장: "{text}"
 
