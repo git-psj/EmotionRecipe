@@ -36,6 +36,7 @@ def recommend_activity(emotion, score):
 # 활동에 대한 상세 정보를 랜덤으로 가져오는 함수
 def get_activity_details(recommended_activity):
     activities_detail_ref = st.session_state.db.collection('activitiesDetail')
+    st.write("₩₩", activities_detail_ref)
     docs = activities_detail_ref.stream()
     st.write("상세 활동추천하기")
     st.write(len(list(docs)))
