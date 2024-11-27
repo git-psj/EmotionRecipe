@@ -1,4 +1,4 @@
-from EmotionRecipe.utils.solution_functions import recommend_and_save_solution
+from utils.solution_functions import recommend_and_save_solution
 
 def main():
     # 사용자가 직접 입력한 감정과 감정 점수
