@@ -29,6 +29,9 @@ def parse_response(response, date, uemail):
         '혐오': '🤬'
     }
     match = re.search(pattern, response, re.DOTALL)
+    if not match:
+        st.error("패턴이 일치하지 않습니다.")
+        return None
     st.write(match.group(1))
     if match:
         # 기본 데이터 추출
