@@ -44,8 +44,8 @@ def get_activity_details(recommended_activity):
     activity_detail_query = None
     
     for doc in docs:
+        st.write(doc.id, recommended_activity)
         if doc.id == recommended_activity:  # 문서명 비교
-            st.write(doc.id, recommended_activity)
             target_doc_ref = activities_detail_ref.document(doc.id)
             break
     
