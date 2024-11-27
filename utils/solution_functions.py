@@ -43,9 +43,10 @@ def get_activity_details(recommended_activity):
     
     for doc in docs:
         if doc.id == recommended_activity:  # 문서명 비교
+            st.write(doc.id, recommended_activity)
             target_doc_ref = activities_detail_ref.document(doc.id)
             break
-            
+    
     # activity_detail_query가 None인 경우 처리
     if not activity_detail_query:
         # st.error(f"{recommended_activity} 활동에 대한 get_activity_details 정보를 찾을 수 없습니다.")
