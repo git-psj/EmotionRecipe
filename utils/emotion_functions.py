@@ -46,9 +46,7 @@ def parse_response(response, date, uemail):
             "대표 감정": emotion,
             "이모티콘": emotions.get(emotion, "❓"),  # 감정에 해당하는 이모티콘
             "감정 수치": emotion_score,
-            "근거 문장1": reasons[0] if len(reasons) > 0 else "",
-            "근거 문장2": reasons[1] if len(reasons) > 1 else "",
-            "근거 문장3": reasons[2] if len(reasons) > 2 else "",
+            "근거 문장": reasons
             "답장": reply
         }
         st.session_state.emotion_data[date] = emotions[match.group(1)]
