@@ -1,4 +1,4 @@
-impoert streamlit as st
+import streamlit as st
 from utils.soultion_functions import get_activity_details
 
 
