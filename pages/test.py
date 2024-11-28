@@ -10,7 +10,7 @@ docs = st.session_state.db.collection('activities').stream()
 for doc in docs:
     st.write(f"{doc.id} => {doc.to_dict()}")
 
-st.write("---"
+st.write("---")
 
 docs = st.session_state.db.collection('activitiesDetail').stream()
 for doc in docs:
