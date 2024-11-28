@@ -37,8 +37,8 @@ def recommend_activity(emotion, score):
 def get_activity_details(recommended_activity):
     st.write("상세정보")
     docs = st.session_state.db.collection('activitiesDetail').document(recommended_activity).collection("sub_activities").stream()
-    for doc in docs:
-        st.write(f"{doc.id} => s{doc.to_dict()}")
+    # for doc in docs:
+    #     st.write(f"{doc.id} => s{doc.to_dict()}")
 
     sub_activities_docs = list(docs)
 
