@@ -5,6 +5,7 @@ from utils.solution_functions import get_activity_details
 # st.write(activities_ref)
 # st.write("---")
 activity = get_activity_details("취미 활동하기")
+st.write("결과다")
 st.write(activity)
 
 
