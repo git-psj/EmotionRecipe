@@ -41,12 +41,15 @@ def get_activity_details(recommended_activity):
     #     st.write(f"{doc.id} => s{doc.to_dict()}")
 
     sub_activities_docs = list(docs)
-
+    st.write("sub_activities_docs")
+    st.write(len(sub_activities_docs))
+    st.write(sub_activities_docs)
+    
     # 하위 컬렉션이 비어 있는 경우 처리
     if not sub_activities_docs:
         print(f'"{recommended_activity}" 문서의 하위 컬렉션이 비어 있습니다.')
         return None
-
+   
     activity_detail = random.choice(sub_activities_docs)
     st.write("결과---")
     st.write(activity_detail)
