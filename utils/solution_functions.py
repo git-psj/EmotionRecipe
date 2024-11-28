@@ -52,7 +52,7 @@ def get_activity_details(recommended_activity):
    
     activity_detail = random.choice(sub_activities_docs)
     st.write("결과---")
-    st.write(activity_detail)
+    st.write(activity_detail.to_dict())
     return activity_detail
 
 # 중복된 활동이 있는지 확인하는 함수
