@@ -282,7 +282,7 @@ def showDiaries(start_date, end_date):
             border-radius: 10px;
             padding: 10px;
             margin-bottom: 15px;
-            width: 230px;            /* 카드 가로 크기 고정 */
+            width: 30%;            /* 카드 가로 크기 고정 */
             height: 200px;           /* 카드 세로 크기 고정 */
             overflow: hidden;        /* 내용이 넘칠 경우 숨김 */
             position: relative;
