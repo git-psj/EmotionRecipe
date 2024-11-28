@@ -265,13 +265,10 @@ def display_solution_page(date, token):
             url = solution_data.get("url")
             # st.write(recommended_activity, sub_activity, url)
             if url != '' :
-                if sub_activity != '':
-                    st.write("sub없음")
-                    st.write(sub_activity)
+                if sub_activity == '':
                     st.write(f"{recommended_activity}")
                     display_content(url)
                 else:
-                    st.write("sub 있음")
                     st.write(f"{recommended_activity} - {sub_activity}")
                     # URL이 YouTube 링크인지 확인
                     display_content(url)
