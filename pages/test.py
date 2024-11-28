@@ -18,7 +18,7 @@ for doc in docs:
 
 st.write("---")
 
-docs = st.session_state.db.collection('activitiesDetail').document("취미 활동하기").collection("sub_activities").stream()
+docs = st.session_state.db.collection('activitiesDetail').document("취미활동하기").collection("sub_activities").stream()
 for doc in docs:
     st.write(f"{doc.id} => s{doc.to_dict()}")
 
