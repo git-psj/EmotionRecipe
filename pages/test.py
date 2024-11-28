@@ -21,3 +21,10 @@ st.write("---")
 docs = st.session_state.db.collection('activitiesDetail').document("취미 활동하기").collection("sub_activities").stream()
 for doc in docs:
     st.write(f"{doc.id} => s{doc.to_dict()}")
+
+st.write("---"
+docs = st.session_state.db.collection('activitiesDetail').stream()
+
+# 각 문서의 ID 출력
+for doc in docs:
+    st.write(f"문서 ID: {doc.id}")
