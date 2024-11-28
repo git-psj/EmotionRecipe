@@ -35,15 +35,15 @@ def recommend_activity(emotion, score):
 
 # 활동에 대한 상세 정보를 랜덤으로 가져오는 함수
 def get_activity_details(recommended_activity):
-    st.write("상세정보")
+    # st.write("상세정보")
     docs = st.session_state.db.collection('activitiesDetail').document(recommended_activity).collection("sub_activities").stream()
     # for doc in docs:
     #     st.write(f"{doc.id} => s{doc.to_dict()}")
 
     sub_activities_docs = list(docs)
-    st.write("sub_activities_docs")
-    st.write(len(sub_activities_docs))
-    st.write(sub_activities_docs)
+    # st.write("sub_activities_docs")
+    # st.write(len(sub_activities_docs))
+    # st.write(sub_activities_docs)
     
     # 하위 컬렉션이 비어 있는 경우 처리
     if not sub_activities_docs:
@@ -51,9 +51,9 @@ def get_activity_details(recommended_activity):
         return None
    
     activity_detail = random.choice(sub_activities_docs)
-    st.write("결과---")
-    st.write(activity_detail.to_dict())
-    return activity_detail
+    # st.write("결과---")
+    # st.write(activity_detail.to_dict())
+    return activity_detail.to_dict()
 
 # 중복된 활동이 있는지 확인하는 함수
 def check_previous_solution(user_email, url):
