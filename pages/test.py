@@ -11,7 +11,7 @@ st.write(activity)
 
 url = "https://poki.com/kr/g/sudoku"
 display_content(url)
-
+st.video(url)
 
 # docs = st.session_state.db.collection('activities').stream()
 # for doc in docs:
