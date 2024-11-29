@@ -9,6 +9,10 @@ st.write("결과다")
 st.write(activity)
 
 
+url = "https://poki.com/kr/g/sudoku"
+display_content(url)
+
+
 # docs = st.session_state.db.collection('activities').stream()
 # for doc in docs:
 #     st.write(f"{doc.id} => {doc.to_dict()}")
