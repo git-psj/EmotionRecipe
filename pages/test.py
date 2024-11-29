@@ -1,5 +1,5 @@
 import streamlit as st
-from utils.solution_functions import get_activity_details
+from utils.solution_functions import get_activity_details, display_content
 
 # activities_ref = st.session_state.db.collection('activities').stream()
 # st.write(activities_ref)
