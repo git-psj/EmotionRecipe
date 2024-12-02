@@ -27,18 +27,19 @@ else:
     with tab1:
         start_date = today - timedelta(days=today.weekday())  # 주간 시작일
         end_date = start_date + timedelta(days=6)             # 주간 종료일
-        st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
-        plot_emotion_data(start_date, end_date)
-    with tab2:
-        start_date = today.replace(day=1)                     # 월간 시작일
-        end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)  # 월간 종료일
         # 날짜 변경을 위한 버튼
         if st.button("이전"):
             start_date -= timedelta(weeks=1)  # 이전 주로 이동
             end_date -= timedelta(weeks=1)
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         if st.button("다음"):
-            today += timedelta(weeks=1)  # 다음 주로 이동
+            start_date += timedelta(weeks=1)  # 다음 주로 이동
+            end_date += timedelta(weeks=1)
+        plot_emotion_data(start_date, end_date)
+    with tab2:
+        start_date = today.replace(day=1)                     # 월간 시작일
+        end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)  # 월간 종료일
+        st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         plot_emotion_data(start_date, end_date)
     with tab3:
         start_date = today.replace(month=1, day=1)            # 연도 시작일
