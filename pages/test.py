@@ -9,6 +9,10 @@ st.write("결과다")
 st.write(activity)
 
 
+activity = get_activity_details("책 읽기")
+st.write("결과다")
+st.write(activity)
+
 url = "https://poki.com/kr/g/sudoku"
 display_content(url)
 st.video(url)
