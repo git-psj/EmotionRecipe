@@ -62,7 +62,8 @@ else:
     # 월별 보기
     with tab2:
         start_date = st.session_state.current_month_start
-        end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)
+        next_month_start = (start_date + timedelta(days=31)).replace(day=1)
+        end_date = next_month_start - timedelta(days=1)
 
         # "다음 달" 버튼 비활성화
         if start_date.month >= today.month and start_date.year >= today.year:
