@@ -43,7 +43,7 @@ else:
         end_date = start_date + timedelta(days=6)
 
         # 오늘 날짜가 주의 시작일일 경우 "다음 주" 버튼 비활성화
-        if start_date != today - timedelta(days=today.weekday()):
+        if start_date >= today - timedelta(days=today.weekday()):
             st.session_state.next_week_disabled = True
         else:
             st.session_state.next_week_disabled = False
