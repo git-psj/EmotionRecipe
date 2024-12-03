@@ -38,7 +38,7 @@ else:
         start_date = st.session_state.current_week_start
         end_date = start_date + timedelta(days=6)
 
-        if start_date == today - timedelta(days=today.weekday()):
+        if start_date == datetime.now() - timedelta(days=today.weekday()):
             next_day_disabled = True
         else:
             next_day_disabled = False
