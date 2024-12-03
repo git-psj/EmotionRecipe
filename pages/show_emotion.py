@@ -45,7 +45,7 @@ else:
         else:
             st.session_state.next_disabled = False
 
-        # 이전, 다음 버튼
+        # 이전, 이번 주, 다음 주 버튼
         if st.button("이전 주", key="previous_week"):
             st.session_state.current_week_start -= timedelta(weeks=1)
             st.rerun()
@@ -57,21 +57,25 @@ else:
             st.rerun()
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
-        st.write(st.session_state.next_week_disabled)
         plot_emotion_data(start_date, end_date)
-        
 
     # 월별 보기
     with tab2:
         start_date = st.session_state.current_month_start
         end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)
 
-        # 이전, 다음 버튼
+        # "다음 달" 버튼 비활성화
+        if start_date.month == today.month and start_date.year == today.year:
+            next_month_disabled = True
+        else:
+            next_month_disabled = False
+
+        # 이전, 다음 달 버튼
         if st.button("이전 달", key="previous_month"):
             prev_month_end = start_date - timedelta(days=1)
             st.session_state.current_month_start = prev_month_end.replace(day=1)
             st.rerun()
-        if st.button("다음 달", key="next_month"):
+        if st.button("다음 달", key="next_month", disabled=next_month_disabled):
             next_month_start = (end_date + timedelta(days=1)).replace(day=1)
             st.session_state.current_month_start = next_month_start
             st.rerun()
@@ -84,11 +88,17 @@ else:
         start_date = st.session_state.current_year_start
         end_date = start_date.replace(month=12, day=31)
 
-        # 이전, 다음 버튼
+        # "다음 연도" 버튼 비활성화
+        if start_date.year == today.year:
+            next_year_disabled = True
+        else:
+            next_year_disabled = False
+
+        # 이전, 다음 연도 버튼
         if st.button("이전 연도", key="previous_year"):
             st.session_state.current_year_start = start_date.replace(year=start_date.year - 1)
             st.rerun()
-        if st.button("다음 연도", key="next_year"):
+        if st.button("다음 연도", key="next_year", disabled=next_year_disabled):
             st.session_state.current_year_start = start_date.replace(year=start_date.year + 1)
             st.rerun()
 
