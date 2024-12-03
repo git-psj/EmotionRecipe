@@ -62,11 +62,10 @@ else:
     # 월별 보기
     with tab2:
         start_date = st.session_state.current_month_start
-        next_month_start = (start_date + timedelta(days=31)).replace(day=1)
-        end_date = next_month_start - timedelta(days=1)
+        end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)
 
         # "다음 달" 버튼 비활성화
-        if start_date.month >= today.month and start_date.year >= today.year:
+        if start_date.month == today.month and start_date.year == today.year:
             next_month_disabled = True
         else:
             next_month_disabled = False
@@ -74,14 +73,14 @@ else:
         # 이전, 다음 달 버튼
         if st.button("이전 달", key="previous_month"):
             prev_month_end = start_date - timedelta(days=1)
-            st.session_state.current_month_start -= prev_month_end.replace(day=1)
+            st.session_state.current_month_start = prev_month_end.replace(day=1)
             st.rerun()
         if st.button("이번달", key="current_month"):
             del st.session_state['current_month_start']
             st.rerun()
         if st.button("다음 달", key="next_month", disabled=next_month_disabled):
             next_month_start = (end_date + timedelta(days=1)).replace(day=1)
-            st.session_state.current_month_start += next_month_start
+            st.session_state.current_month_start = next_month_start
             st.rerun()
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
@@ -93,20 +92,20 @@ else:
         end_date = start_date.replace(month=12, day=31)
 
         # "다음 연도" 버튼 비활성화
-        if start_date.year >= today.year:
+        if start_date.year == today.year:
             next_year_disabled = True
         else:
             next_year_disabled = False
 
         # 이전, 다음 연도 버튼
         if st.button("이전 연도", key="previous_year"):
-            st.session_state.current_year_start -= start_date.replace(year=start_date.year - 1)
+            st.session_state.current_year_start = start_date.replace(year=start_date.year - 1)
             st.rerun()
         if st.button("이번 연도", key="current_year"):
             del st.session_state['current_year_start']
             st.rerun()
         if st.button("다음 연도", key="next_year", disabled=next_year_disabled):
-            st.session_state.current_year_start += start_date.replace(year=start_date.year + 1)
+            st.session_state.current_year_start = start_date.replace(year=start_date.year + 1)
             st.rerun()
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
