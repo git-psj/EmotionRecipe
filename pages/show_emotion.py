@@ -65,7 +65,7 @@ else:
         end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)
 
         # "다음 달" 버튼 비활성화
-        if start_date.month == today.month and start_date.year == today.year:
+        if start_date.month >= today.month and start_date.year >= today.year:
             next_month_disabled = True
         else:
             next_month_disabled = False
@@ -92,7 +92,7 @@ else:
         end_date = start_date.replace(month=12, day=31)
 
         # "다음 연도" 버튼 비활성화
-        if start_date.year == today.year:
+        if start_date.year >= today.year:
             next_year_disabled = True
         else:
             next_year_disabled = False
