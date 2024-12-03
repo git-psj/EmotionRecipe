@@ -21,13 +21,13 @@ else:
 
     # 초기 날짜 설정
     if "current_week_start" not in st.session_state:
-        st.session_state.current_week_start = today - timedelta(days=today.weekday())  # 이번 주 시작일
+        st.session_state.current_week_start = today - timedelta(days=today.weekday())
 
     if "current_month_start" not in st.session_state:
-        st.session_state.current_month_start = today.replace(day=1)  # 이번 달 시작일
+        st.session_state.current_month_start = today.replace(day=1)
 
     if "current_year_start" not in st.session_state:
-        st.session_state.current_year_start = today.replace(month=1, day=1)  # 이번 연도 시작일
+        st.session_state.current_year_start = today.replace(month=1, day=1)
 
     # 탭 구성
     tab1, tab2, tab3 = st.tabs(["주간 보기", "월별 보기", "연도별 보기"])
@@ -37,6 +37,7 @@ else:
         start_date = st.session_state.current_week_start
         end_date = start_date + timedelta(days=6)
 
+        # 버튼 가로 정렬
         col1, col2, col3 = st.columns(3)
         with col1:
             if st.button("이전 주", key="previous_week"):
@@ -45,9 +46,9 @@ else:
             if st.button("이번 주로 이동", key="current_week"):
                 st.session_state.current_week_start = today - timedelta(days=today.weekday())
         with col3:
-            disabled_next = st.session_state.current_week_start + timedelta(weeks=1) > today
-            st.button("다음 주", key="next_week", disabled=disabled_next)
-            if not disabled_next:
+            disabled_next_week = st.session_state.current_week_start + timedelta(weeks=1) > today
+            st.button("다음 주", key="next_week", disabled=disabled_next_week)
+            if not disabled_next_week:
                 st.session_state.current_week_start += timedelta(weeks=1)
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
@@ -67,9 +68,9 @@ else:
             if st.button("이번 달로 이동", key="current_month"):
                 st.session_state.current_month_start = today.replace(day=1)
         with col3:
-            disabled_next = st.session_state.current_month_start.month == today.month
-            st.button("다음 달", key="next_month", disabled=disabled_next)
-            if not disabled_next:
+            disabled_next_month = st.session_state.current_month_start.month == today.month
+            st.button("다음 달", key="next_month", disabled=disabled_next_month)
+            if not disabled_next_month:
                 next_month_start = (end_date + timedelta(days=1)).replace(day=1)
                 st.session_state.current_month_start = next_month_start
 
@@ -89,9 +90,9 @@ else:
             if st.button("이번 연도로 이동", key="current_year"):
                 st.session_state.current_year_start = today.replace(month=1, day=1)
         with col3:
-            disabled_next = st.session_state.current_year_start.year == today.year
-            st.button("다음 연도", key="next_year", disabled=disabled_next)
-            if not disabled_next:
+            disabled_next_year = st.session_state.current_year_start.year == today.year
+            st.button("다음 연도", key="next_year", disabled=disabled_next_year)
+            if not disabled_next_year:
                 st.session_state.current_year_start = start_date.replace(year=start_date.year + 1)
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
