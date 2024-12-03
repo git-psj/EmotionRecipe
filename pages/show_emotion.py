@@ -57,6 +57,7 @@ else:
             st.rerun()
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
+        st.write(disabled=st.session_state.next_week_disabled)
         plot_emotion_data(start_date, end_date)
         
 
