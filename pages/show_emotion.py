@@ -23,51 +23,46 @@ else:
 
     # 주간 보기 탭
     with tab1:
-        # 주간 시작일과 종료일 계산
         start_date = today - timedelta(days=today.weekday())  # 주간 시작일
         end_date = start_date + timedelta(days=6)             # 주간 종료일
         
         # 날짜 변경을 위한 버튼
-        if st.button("이전"):
-            start_date -= timedelta(weeks=1)  # 이전 주로 이동
+        if st.button("이전 주", key="previous_week"):
+            start_date -= timedelta(weeks=1)
             end_date -= timedelta(weeks=1)
-        if st.button("다음"):
-            start_date += timedelta(weeks=1)  # 다음 주로 이동
+        if st.button("다음 주", key="next_week"):
+            start_date += timedelta(weeks=1)
             end_date += timedelta(weeks=1)
-        
+
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         plot_emotion_data(start_date, end_date)
 
     # 월별 보기 탭
     with tab2:
-        # 월간 시작일과 종료일 계산
-        start_date = today.replace(day=1)                     # 월간 시작일
-        end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)  # 월간 종료일
-        
-        # 날짜 변경을 위한 버튼
-        if st.button("이전"):
-            start_date -= timedelta(days=30)  # 이전 달로 이동
-            end_date -= timedelta(days=30)
-        if st.button("다음"):
-            start_date += timedelta(days=30)  # 다음 달로 이동
-            end_date += timedelta(days=30)
-        
+        start_date = today.replace(day=1)
+        end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)
+
+        if st.button("이전 달", key="previous_month"):
+            start_date = (start_date - timedelta(days=1)).replace(day=1)
+            end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)
+        if st.button("다음 달", key="next_month"):
+            start_date = (end_date + timedelta(days=1)).replace(day=1)
+            end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)
+
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         plot_emotion_data(start_date, end_date)
 
     # 연도별 보기 탭
     with tab3:
-        # 연도 시작일과 종료일 계산
-        start_date = today.replace(month=1, day=1)            # 연도 시작일
-        end_date = today.replace(month=12, day=31)            # 연도 종료일
-        
-        # 날짜 변경을 위한 버튼
-        if st.button("이전"):
-            start_date -= timedelta(days=365)  # 이전 년도로 이동
-            end_date -= timedelta(days=365)
-        if st.button("다음"):
-            start_date += timedelta(days=365)  # 다음 년도로 이동
-            end_date += timedelta(days=365)
-        
+        start_date = today.replace(month=1, day=1)
+        end_date = today.replace(month=12, day=31)
+
+        if st.button("이전 연도", key="previous_year"):
+            start_date = start_date.replace(year=start_date.year - 1)
+            end_date = end_date.replace(year=end_date.year - 1)
+        if st.button("다음 연도", key="next_year"):
+            start_date = start_date.replace(year=start_date.year + 1)
+            end_date = end_date.replace(year=end_date.year + 1)
+
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         plot_emotion_data(start_date, end_date)
