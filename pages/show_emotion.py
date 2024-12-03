@@ -72,15 +72,15 @@ else:
 
         # 이전, 다음 달 버튼
         if st.button("이전 달", key="previous_month"):
-            prev_month_end -= start_date - timedelta(days=1)
-            st.session_state.current_month_start = prev_month_end.replace(day=1)
+            prev_month_end = start_date - timedelta(days=1)
+            st.session_state.current_month_start -= prev_month_end.replace(day=1)
             st.rerun()
         if st.button("이번달", key="current_month"):
             del st.session_state['current_month_start']
             st.rerun()
         if st.button("다음 달", key="next_month", disabled=next_month_disabled):
-            next_month_start += (end_date + timedelta(days=1)).replace(day=1)
-            st.session_state.current_month_start = next_month_start
+            next_month_start = (end_date + timedelta(days=1)).replace(day=1)
+            st.session_state.current_month_start += next_month_start
             st.rerun()
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
