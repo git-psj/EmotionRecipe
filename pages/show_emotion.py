@@ -16,8 +16,9 @@ else:
     st.title("감정 레시피")
     st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 감정통계보기</h3>", unsafe_allow_html=True)
     go_logout()
-    today = datetime.now()
     
+    today = datetime.now()
+
     # 초기 날짜 설정
     if "current_week_start" not in st.session_state:
         st.session_state.current_week_start = today - timedelta(days=today.weekday())  # 이번 주 시작일
@@ -25,7 +26,7 @@ else:
     if "current_month_start" not in st.session_state:
         st.session_state.current_month_start = today.replace(day=1)  # 이번 달 시작일
 
-    if "current_year_start" not in st.session_state:        
+    if "current_year_start" not in st.session_state:
         st.session_state.current_year_start = today.replace(month=1, day=1)  # 이번 연도 시작일
 
     # 탭 구성
@@ -36,6 +37,7 @@ else:
         start_date = st.session_state.current_week_start
         end_date = start_date + timedelta(days=6)
 
+        # "다음 주" 버튼 비활성화 조건
         if start_date == today - timedelta(days=today.weekday()):
             next_day_disabled = True
         else:
@@ -58,6 +60,7 @@ else:
         start_date = st.session_state.current_month_start
         end_date = (start_date + timedelta(days=31)).replace(day=1) - timedelta(days=1)
 
+        # 이전, 다음 버튼
         if st.button("이전 달", key="previous_month"):
             prev_month_end = start_date - timedelta(days=1)
             st.session_state.current_month_start = prev_month_end.replace(day=1)
@@ -65,6 +68,7 @@ else:
         if st.button("다음 달", key="next_month"):
             next_month_start = (end_date + timedelta(days=1)).replace(day=1)
             st.session_state.current_month_start = next_month_start
+            st.rerun()
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         plot_emotion_data(start_date, end_date)
@@ -74,10 +78,13 @@ else:
         start_date = st.session_state.current_year_start
         end_date = start_date.replace(month=12, day=31)
 
+        # 이전, 다음 버튼
         if st.button("이전 연도", key="previous_year"):
             st.session_state.current_year_start = start_date.replace(year=start_date.year - 1)
+            st.rerun()
         if st.button("다음 연도", key="next_year"):
             st.session_state.current_year_start = start_date.replace(year=start_date.year + 1)
+            st.rerun()
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         plot_emotion_data(start_date, end_date)
