@@ -44,8 +44,10 @@ else:
         # 이전, 다음 버튼
         if st.button("이전 주", key="previous_week"):
             st.session_state.current_week_start -= timedelta(weeks=1)
+            st.rerun()
         if st.button("다음 주", key="next_week", disabled=next_day_disabled):
             st.session_state.current_week_start += timedelta(weeks=1)
+            st.rerun()
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         plot_emotion_data(start_date, end_date)
