@@ -35,17 +35,23 @@ else:
 
     # 주간 보기
     with tab1:
+        if start_date == today - timedelta(days=today.weekday()):
+            next_day_disabled = True
+        else:
+            next_day_disabled = False
+            
         start_date = st.session_state.current_week_start
         end_date = start_date + timedelta(days=6)
 
         # 이전, 다음 버튼
         if st.button("이전 주", key="previous_week"):
             st.session_state.current_week_start -= timedelta(weeks=1)
-        if st.button("다음 주", key="next_week"):
+        if st.button("다음 주", key="next_week", disabled=next_day_disabled):
             st.session_state.current_week_start += timedelta(weeks=1)
 
         st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
         plot_emotion_data(start_date, end_date)
+        
 
     # 월별 보기
     with tab2:
@@ -55,6 +61,7 @@ else:
         if st.button("이전 달", key="previous_month"):
             prev_month_end = start_date - timedelta(days=1)
             st.session_state.current_month_start = prev_month_end.replace(day=1)
+            st.rerun()
         if st.button("다음 달", key="next_month"):
             next_month_start = (end_date + timedelta(days=1)).replace(day=1)
             st.session_state.current_month_start = next_month_start
