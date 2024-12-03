@@ -52,6 +52,9 @@ else:
         if st.button("이전 주", key="previous_week"):
             st.session_state.current_week_start -= timedelta(weeks=1)
             st.rerun()
+        if st.button("이번주", key="current_week"):
+            st.session_state.current_week_start = None
+            st.rerun()
         if st.button("다음 주", key="next_week", disabled=st.session_state.get("next_week_disabled", True)):
             st.session_state.current_week_start += timedelta(weeks=1)
             st.rerun()
