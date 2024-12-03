@@ -16,18 +16,16 @@ else:
     st.title("감정 레시피")
     st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 감정통계보기</h3>", unsafe_allow_html=True)
     go_logout()
-
+    today = datetime.now()
+    
     # 초기 날짜 설정
     if "current_week_start" not in st.session_state:
-        today = datetime.now()
         st.session_state.current_week_start = today - timedelta(days=today.weekday())  # 이번 주 시작일
 
     if "current_month_start" not in st.session_state:
-        today = datetime.now()
         st.session_state.current_month_start = today.replace(day=1)  # 이번 달 시작일
 
-    if "current_year_start" not in st.session_state:
-        today = datetime.now()
+    if "current_year_start" not in st.session_state:        
         st.session_state.current_year_start = today.replace(month=1, day=1)  # 이번 연도 시작일
 
     # 탭 구성
@@ -38,7 +36,7 @@ else:
         start_date = st.session_state.current_week_start
         end_date = start_date + timedelta(days=6)
 
-        if start_date == datetime.now() - timedelta(days=today.weekday()):
+        if start_date == today - timedelta(days=today.weekday()):
             next_day_disabled = True
         else:
             next_day_disabled = False
