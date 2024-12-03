@@ -101,7 +101,7 @@ else:
         if st.button("이전 연도", key="previous_year"):
             st.session_state.current_year_start = start_date.replace(year=start_date.year - 1)
             st.rerun()
-         if st.button("이번 연도", key="current_year"):
+        if st.button("이번 연도", key="current_year"):
             del st.session_state['current_year_start']
             st.rerun()
         if st.button("다음 연도", key="next_year", disabled=next_year_disabled):
