@@ -29,6 +29,11 @@ else:
     if "current_year_start" not in st.session_state:
         st.session_state.current_year_start = today.replace(month=1, day=1)  # 이번 연도 시작일
 
+    # "다음 주" 버튼 비활성화 상태 관리
+    if "next_week_disabled" not in st.session_state:
+        # "다음 주" 버튼이 처음 비활성화 상태로 시작하도록 설정
+        st.session_state.next_week_disabled = False
+
     # 탭 구성
     tab1, tab2, tab3 = st.tabs(["주간 보기", "월별 보기", "연도별 보기"])
 
@@ -37,17 +42,17 @@ else:
         start_date = st.session_state.current_week_start
         end_date = start_date + timedelta(days=6)
 
-        # "다음 주" 버튼 비활성화 조건
+        # 오늘 날짜가 주의 시작일일 경우 "다음 주" 버튼 비활성화
         if start_date == today - timedelta(days=today.weekday()):
-            next_day_disabled = True
+            st.session_state.next_week_disabled = True
         else:
-            next_day_disabled = False
+            st.session_state.next_week_disabled = False
 
         # 이전, 다음 버튼
         if st.button("이전 주", key="previous_week"):
             st.session_state.current_week_start -= timedelta(weeks=1)
             st.rerun()
-        if st.button("다음 주", key="next_week", disabled=next_day_disabled):
+        if st.button("다음 주", key="next_week", disabled=st.session_state.next_week_disabled):
             st.session_state.current_week_start += timedelta(weeks=1)
             st.rerun()
 
