@@ -16,23 +16,20 @@ else:
     st.title("감정 레시피")
     st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 감정통계보기</h3>", unsafe_allow_html=True)
     go_logout()
-    
     today = datetime.now()
 
     # 초기 날짜 설정
     if "current_week_start" not in st.session_state:
         st.session_state.current_week_start = today - timedelta(days=today.weekday())  # 이번 주 시작일
-
     if "current_month_start" not in st.session_state:
         st.session_state.current_month_start = today.replace(day=1)  # 이번 달 시작일
-
     if "current_year_start" not in st.session_state:
         st.session_state.current_year_start = today.replace(month=1, day=1)  # 이번 연도 시작일
 
     # "다음 주" 버튼 비활성화 상태 관리
-    if "next_week_disabled" not in st.session_state:
+    if "next_disabled" not in st.session_state:
         # "다음 주" 버튼이 처음 비활성화 상태로 시작하도록 설정
-        st.session_state.next_week_disabled = False
+        st.session_state.next_disabled = False
 
     # 탭 구성
     tab1, tab2, tab3 = st.tabs(["주간 보기", "월별 보기", "연도별 보기"])
@@ -44,9 +41,9 @@ else:
 
         # 오늘 날짜가 주의 시작일일 경우 "다음 주" 버튼 비활성화
         if start_date >= today - timedelta(weeks=1):
-            st.session_state.next_week_disabled = True
+            st.session_state.next_disabled = True
         else:
-            st.session_state.next_week_disabled = False
+            st.session_state.next_disabled = False
 
         # 이전, 다음 버튼
         if st.button("이전 주", key="previous_week"):
@@ -55,7 +52,7 @@ else:
         if st.button("이번주", key="current_week"):
             del st.session_state['current_week_start']
             st.rerun()
-        if st.button("다음 주", key="next_week", disabled=st.session_state.get("next_week_disabled", True)):
+        if st.button("다음 주", key="next_week", disabled=st.session_state.next_disabled):
             st.session_state.current_week_start += timedelta(weeks=1)
             st.rerun()
 
