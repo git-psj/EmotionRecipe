@@ -34,14 +34,14 @@ else:
     tab1, tab2, tab3 = st.tabs(["주간 보기", "월별 보기", "연도별 보기"])
 
     # 주간 보기
-    with tab1:
+    with tab1:         
+        start_date = st.session_state.current_week_start
+        end_date = start_date + timedelta(days=6)
+
         if start_date == today - timedelta(days=today.weekday()):
             next_day_disabled = True
         else:
             next_day_disabled = False
-            
-        start_date = st.session_state.current_week_start
-        end_date = start_date + timedelta(days=6)
 
         # 이전, 다음 버튼
         if st.button("이전 주", key="previous_week"):
