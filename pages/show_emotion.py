@@ -9,23 +9,30 @@ if "db" not in st.session_state:
 st.session_state.pwCheck = 0
 
 
- # 공통 버튼 처리 함수
-def handle_date_navigation(key, delta_func, reset_key=None):
-    if st.button(f"이전 {reset_key or key}", key=f"prev_{key}"):
-        st.session_state[key] = delta_func(st.session_state[key], -1)
+ def handle_date_navigation(key, delta_func, period_label, disable_next_check=None):
+    start_date = st.session_state[key]
+    end_date = delta_func(start_date)
+    # 이전 버튼
+    if st.button(f"이전 {period_label}", key=f"prev_{key}"):
+        st.session_state[key] = delta_func(start_date, -1)
         st.rerun()
-    if st.button(f"이번 {reset_key or key}", key=f"curr_{key}"):
+    # 현재 버튼 (초기화)
+    if st.button(f"이번 {period_label}", key=f"curr_{key}"):
         del st.session_state[key]
         st.rerun()
-    if st.button(f"다음 {reset_key or key}", key=f"next_{key}"):
-        st.session_state[key] = delta_func(st.session_state[key], 1)
+    # 다음 버튼 (비활성화 조건 포함)
+    next_disabled = disable_next_check(start_date) if disable_next_check else False
+    if st.button(f"다음 {period_label}", key=f"next_{key}", disabled=next_disabled):
+        st.session_state[key] = delta_func(start_date, 1)
         st.rerun()
+    # 날짜 범위 출력 및 감정 데이터 시각화
+    st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
+    plot_emotion_data(start_date, end_date)
 
 
 # 로그인 확인
 if not "id_token" in st.session_state:
     main()
-
 else:
     st.title("감정 레시피")
     st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 감정통계보기</h3>", unsafe_allow_html=True)
@@ -40,38 +47,14 @@ else:
     if "current_year_start" not in st.session_state:
         st.session_state.current_year_start = today.replace(month=1, day=1)  # 이번 연도 시작일
 
-    # "다음기간" 버튼 비활성화 상태 관리
-    if "next_disabled" not in st.session_state:
-        # "다음 주" 버튼이 처음 비활성화 상태로 시작하도록 설정
-        st.session_state.next_disabled = False
-
     # 탭 구성
     tab1, tab2, tab3 = st.tabs(["주간 보기", "월별 보기", "연도별 보기"])
 
     # 주간 보기
     with tab1:         
-        start_date = st.session_state.current_week_start
-        end_date = start_date + timedelta(days=6)
-
-        # 오늘 날짜가 주의 시작일일 경우 "다음 주" 버튼 비활성화
-        if start_date >= today - timedelta(weeks=1):
-            st.session_state.next_disabled = True
-        else:
-            st.session_state.next_disabled = False
-        handle_date_navigation("current_week_start", lambda date, delta: date + timedelta(weeks=delta), "주")
-
-        # 이전, 다음 버튼
-        if st.button("이전주", key="previous_week"):
-            st.session_state.current_week_start -= timedelta(weeks=1)
-            st.rerun()
-        if st.button("이번주", key="current_week"):
-            del st.session_state['current_week_start']
-            st.rerun()
-        if st.button("다음주", key="next_week", disabled=st.session_state.next_disabled):
-            st.session_state.current_week_start += timedelta(weeks=1)
-            st.rerun()
-        st.write(f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}")
-        plot_emotion_data(start_date, end_date)
+        handle_date_navigation("current_week_start", lambda d, s=0: d + timedelta(weeks=s, days=6 * (s == 0)), "주", lambda d: d >= datetime.now() - timedelta(weeks=1))
+        
+        
 
     # 월별 보기
     with tab2:
