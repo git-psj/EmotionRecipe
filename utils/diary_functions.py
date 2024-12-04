@@ -168,9 +168,9 @@ def diary_popup(selected_date):
             else:
                 # 내용 입력
                 content = st.text_area("내용", height=100)
-                # 이미지 업로드
-                uploaded_image = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"])
-            
+                # 여러 이미지 업로드
+                uploaded_images = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
+
                 css = '''
                 <style>
                     [data-testid='stFileUploader'] {
@@ -187,36 +187,37 @@ def diary_popup(selected_date):
                         float: right;
                         padding-top: 0;
                     }
-                
                 </style>
                 '''
                 st.markdown(css, unsafe_allow_html=True)
                 
-                # 업로드 결과 확인
-                if uploaded_image:
-                    st.image(uploaded_image, caption="업로드된 이미지")
-
+                # 업로드된 모든 이미지 확인
+                if uploaded_images:
+                    for img in uploaded_images:
+                        st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")
+                        
                 # 폼 제출 버튼이 눌린 경우
                 if submit_button:
                     if content:                        
                         # 사용자 이메일 가져오기                        
-                        image_url = None
+                        image_urls = []
 
-                        # 이미지가 업로드된 경우 Firebase Storage에 저장
-                        if uploaded_image:
+                        # 이미지들이 업로드된 경우 Firebase Storage에 저장
+                        if uploaded_images:
                             bucket = storage.bucket(st.session_state.firebase_credentials['storageBucket'])
 
-                            # 고유한 파일 이름 생성 (사용자 이메일 + 날짜)
-                            image_filename = f"{st.session_state.decoded_token['email']}_{date}_{uploaded_image.name}"
-                            blob = bucket.blob(image_filename)
-                            blob.upload_from_file(uploaded_image, content_type=uploaded_image.type)
-                            blob.make_public()
-                            image_url = blob.public_url
+                            # 이미지들 저장
+                            for img in uploaded_images:
+                                image_filename = f"{st.session_state.decoded_token['email']}_{date}_{img.name}"
+                                blob = bucket.blob(image_filename)
+                                blob.upload_from_file(img, content_type=img.type)
+                                blob.make_public()
+                                image_urls.append(blob.public_url)
 
                         # Firestore에 일기 저장
                         doc_ref.collection('diaries').document(date).set({
                             "content": content,
-                            "image": image_url if uploaded_image else None,
+                            "images": image_urls if uploaded_images else None,
                             'timestamp': firestore.SERVER_TIMESTAMP
                         })
                         # 성공 메시지 출력
@@ -225,7 +226,7 @@ def diary_popup(selected_date):
                             analyze_emotion(content, date)
                     else:
                         st.session_state.alert_message = "내용을 입력해 주세요."
-
+                        
 # 일기 작성 페이지
 def diary_page():
     try:
