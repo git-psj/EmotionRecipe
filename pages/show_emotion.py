@@ -9,7 +9,7 @@ if "db" not in st.session_state:
 st.session_state.pwCheck = 0
 
 
- def handle_date_navigation(key, delta_func, period_label, disable_next_check=None):
+def handle_date_navigation(key, delta_func, period_label, disable_next_check=None):
     start_date = st.session_state[key]
     end_date = delta_func(start_date)
     # 이전 버튼
