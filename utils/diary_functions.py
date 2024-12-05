@@ -9,11 +9,7 @@ from .emotion_functions import analyze_emotion
 
 # fetch_emotions_for_month, get_emotions_for_month, display_calendar, move_month, year_selector, diary_popup, diary_page, showDiaries
 
-import streamlit as st
-import calendar
-from datetime import datetime
-
-# Firestore 없이 특정 달의 감정 데이터를 빈 값으로 초기화하는 함수
+# Firestore에서 특정 달의 감정 데이터를 가져오는 함수
 def fetch_emotions_for_month(year, month):
     st.session_state.emotion_data = {}
     num_days = calendar.monthrange(year, month)[1]
@@ -21,16 +17,32 @@ def fetch_emotions_for_month(year, month):
     # 기본적으로 모든 날짜를 빈 문자열로 초기화
     for day in range(1, num_days + 1):
         date_str = f"{year}-{month:02}-{day:02}"
-        st.session_state.emotion_data[date_str] = ""  # 빈 문자열로 초기화
+        st.session_state.emotion_data[date_str] = ""
+
+    try:
+        # Firestore에서 감정 데이터를 한 번에 가져옴
+        docs = st.session_state.db.collection('users').document(st.session_state.decoded_token['email']).collection('emotions').stream()
+        for doc in docs:
+            doc_id = doc.id
+            try:
+                doc_date = datetime.strptime(doc_id, "%Y-%m-%d")
+                if doc_date.year == year and doc_date.month == month:
+                    # 해당 날짜의 감정 데이터를 업데이트
+                    st.session_state.emotion_data[doc_id] = doc.to_dict().get("이모티콘", "")
+            except ValueError:
+                continue  # 날짜 형식이 맞지 않는 문서 무시
+    except Exception as e:
+        st.write("에러가 발생했습니다:", e)
 
     return st.session_state.emotion_data
 
-# 캐시에서 특정 달의 감정 데이터를 가져오거나, 없으면 빈 값으로 초기화
+# 캐시에서 특정 달의 감정 데이터를 가져오거나, 없으면 Firestore에서 불러오는 함수
 def get_emotions_for_month(year, month):
     cache_key = f"{year}-{month:02}"
     if cache_key not in st.session_state.emotion_cache:
-        # 해당 달 데이터가 캐시에 없으면 빈 값으로 초기화하여 캐시에 저장
+        # 해당 달 데이터가 캐시에 없으면 Firestore에서 불러와서 캐시에 저장
         st.session_state.emotion_cache[cache_key] = fetch_emotions_for_month(year, month)
+
 
 # 달력 출력 함수
 def display_calendar(month, year):
@@ -41,6 +53,7 @@ def display_calendar(month, year):
     with col1:
         if st.button("< 이전달"):
             st.session_state.current_month, st.session_state.current_year = move_month(month, year, "previous")
+            # 즉시 상태 업데이트
             st.rerun()
     with col2:
         st.markdown(f"<h3 style='text-align: center;'>{year}년 {month}월</h3>", unsafe_allow_html=True)
@@ -55,6 +68,7 @@ def display_calendar(month, year):
         cols[i].write(f"**{day}**")
     cal = calendar.monthcalendar(year, month)
     get_emotions_for_month(year, month)
+
 
     for week in cal:
         cols = st.columns(7)
@@ -71,6 +85,7 @@ def display_calendar(month, year):
                     else:
                         st.session_state.selected_date = date_str
                     st.rerun()
+
 
     return st.session_state.selected_date
 
@@ -92,14 +107,14 @@ def year_selector():
     selected_year = st.selectbox("년도 ", range(2020, 2026), index=st.session_state.current_year - 2020)
     return selected_year
 
-import streamlit as st
-
-# 일기 작성 폼 함수 (데이터베이스 관련 코드 제거)
+# 일기 작성 폼 함수
 def diary_popup(selected_date):
     # 날짜가 선택된 경우
     if selected_date:
         date = selected_date
-
+        doc_ref = st.session_state.db.collection('users').document(st.session_state.decoded_token['email'])
+        doc = doc_ref.collection('diaries').document(date).get()
+        
         # Form 사용
         with st.form(key='diary_form', clear_on_submit=True):
 
@@ -108,47 +123,110 @@ def diary_popup(selected_date):
             with col1:
                 st.write(f"##### {date}", key="stWrite")
             with col2:
-                submit_button = st.form_submit_button(label="저장")
-
-            # 내용 입력
-            content = st.text_area("내용", height=100)
-            
-            # 여러 이미지 업로드
-            uploaded_images = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
-
-            # 이미지 업로드 시 표시를 위한 CSS 설정
-            css = '''
-            <style>
-                [data-testid='stFileUploader'] {
-                    width: max-content;
-                }
-                [data-testid='stFileUploader'] section {
-                    padding: 0;
-                    float: left;
-                }
-                [data-testid='stFileUploader'] section > input + div {
-                    display: none;
-                }
-                [data-testid='stFileUploader'] section + div {
-                    float: right;
-                    padding-top: 0;
-                }
-            </style>
-            '''
-            st.markdown(css, unsafe_allow_html=True)
-
-            # 업로드된 모든 이미지 확인
-            if uploaded_images:
-                for img in uploaded_images:
-                    st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")
-
-            # 폼 제출 버튼이 눌린 경우
-            if submit_button:
-                if content:
-                    st.success("일기가 성공적으로 저장되었습니다!")
+                if doc.exists:
+                    submit_button = st.form_submit_button(label="삭제")
+                    if submit_button:
+                        # 일기 삭제
+                        doc_ref.collection('diaries').document(date).delete()
+                        if doc_ref.collection('emtions').document(date):
+                            doc_ref.collection('emtions').document(date).delete()
+                        if doc_ref.collection('solutions').document(date):
+                            doc_ref.collection('solutions').document(date).delete()
+                        st.session_state.alert_message = "일기가 삭제되었습니다."
+                        st.session_state.emotion_data[date] = ""
+                        st.session_state.selected_date = None  # 삭제 후 날짜 초기화
+                        st.rerun()
                 else:
-                    st.warning("내용을 입력해 주세요.")
+                    submit_button = st.form_submit_button(label="저장")
+            
+            if doc.exists:
+                # 문서 데이터가 있으면 출력
+                diary_data = doc.to_dict()
+                st.text_area(label="일기 내용", value=diary_data['content'])
+                
+                # 이미지 URL이 있으면 표시
+                if diary_data.get('image'):
+                    st.image(diary_data['image'], caption="업로드된 이미지")
+                else:
+                    st.write("이미지가 없습니다.")
+                    
+                st.write("작성 시간:", diary_data.get('timestamp', '시간 정보 없음'))
+                query_params = urlencode({"id": date, "token": st.session_state.id_token})
+                detail_page_url = f"/solution_page?{query_params}"
+                st.markdown(
+                    f"""
+                    <div style="text-align: center;">
+                        <a href="{detail_page_url}" target="_self">
+                            <button style="background-color: #eee; color: gray; border: 1px solid lightgray; border-radius: 10px; 
+                            margin: 20px auto; padding: 10px 20px; text-align: center;
+                            text-decoration: none; font-size: 15px; cursor: pointer;">
+                                결과 조회하러가기
+                            </button>
+                        </a>
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                # 내용 입력
+                content = st.text_area("내용", height=100)
+                # 여러 이미지 업로드
+                uploaded_images = st.file_uploader("이미지 삽입", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
 
+                css = '''
+                <style>
+                    [data-testid='stFileUploader'] {
+                        width: max-content;
+                    }
+                    [data-testid='stFileUploader'] section {
+                        padding: 0;
+                        float: left;
+                    }
+                    [data-testid='stFileUploader'] section > input + div {
+                        display: none;
+                    }
+                    [data-testid='stFileUploader'] section + div {
+                        float: right;
+                        padding-top: 0;
+                    }
+                </style>
+                '''
+                st.markdown(css, unsafe_allow_html=True)
+                
+                # 업로드된 모든 이미지 확인
+                if uploaded_images:
+                    for img in uploaded_images:
+                        st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")
+                        
+                # 폼 제출 버튼이 눌린 경우
+                if submit_button:
+                    if content:                        
+                        # 사용자 이메일 가져오기                        
+                        image_urls = []
+
+                        # 이미지들이 업로드된 경우 Firebase Storage에 저장
+                        if uploaded_images:
+                            bucket = storage.bucket(st.session_state.firebase_credentials['storageBucket'])
+
+                            # 이미지들 저장
+                            for img in uploaded_images:
+                                image_filename = f"{st.session_state.decoded_token['email']}_{date}_{img.name}"
+                                blob = bucket.blob(image_filename)
+                                blob.upload_from_file(img, content_type=img.type)
+                                blob.make_public()
+                                image_urls.append(blob.public_url)
+
+                        # Firestore에 일기 저장
+                        doc_ref.collection('diaries').document(date).set({
+                            "content": content,
+                            "images": image_urls if uploaded_images else None,
+                            'timestamp': firestore.SERVER_TIMESTAMP
+                        })
+                        # 성공 메시지 출력
+                        st.session_state.alert_message = "일기가 성공적으로 저장되었습니다!"
+                        with st.spinner("감정 분석 중..."):
+                            analyze_emotion(content, date)
+                    else:
+                        st.session_state.alert_message = "내용을 입력해 주세요."
+                        
 # 일기 작성 페이지
 def diary_page():
     try:
