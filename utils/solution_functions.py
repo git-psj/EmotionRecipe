@@ -197,7 +197,7 @@ def display_content(url):
 
 @st.cache_data
 def load_data(date, token):
-    st.write(date, token, type(date))
+    # st.write(date, token, type(date))
     if date is None:
         if token is None:
             try: # 솔루션 페이지를 눌렀을 때     
