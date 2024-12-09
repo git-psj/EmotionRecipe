@@ -275,7 +275,7 @@ def display_solution_page(date, token):
                 highlighted_content = highlighted_content.replace(keyword, f"<span style='background-color: {emotion_colors[emoticon]}; padding: 0.2em;'>{keyword}</span>")
 
         st.markdown(highlighted_content, unsafe_allow_html=True)  # 일기 내용 표시 (수정 불가)
-        uploaded_images = diary_data.get('image')
+        uploaded_images = diary_data.get('images')
         if uploaded_images:
             for img in uploaded_images:
                 st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")            
