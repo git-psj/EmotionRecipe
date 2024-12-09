@@ -239,7 +239,7 @@ def load_data(date, token):
 def display_solution_page(date, token):
     st.title("감정 레시피")
     st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 결과 확인하기</h3>", unsafe_allow_html=True)
-    st.write(date, token)
+    # st.write(date, token)
     date, diary_data, emotion_data, solution_data = load_data(date, token)
     
     # 페이지 레이아웃 설정 (좌우 컬럼)
