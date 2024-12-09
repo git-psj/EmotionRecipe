@@ -158,7 +158,7 @@ def diary_popup(selected_date):
                 uploaded_images = diary_data.get('images')
                 if uploaded_images:
                     for img in uploaded_images:
-                        st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")
+                        st.image(img)
                 else:
                     st.write("이미지가 없습니다.")
                     
