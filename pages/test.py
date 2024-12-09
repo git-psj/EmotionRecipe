@@ -18,6 +18,7 @@ col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("이전"):
         st.session_state.selected_date -= timedelta(days=1)
+        st.rerun()
 with col2:
     if st.button("다음"):
         st.session_state.selected_date += timedelta(days=1)
