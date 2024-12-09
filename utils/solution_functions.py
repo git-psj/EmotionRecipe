@@ -207,18 +207,24 @@ def load_data(date, token):
             except:
                 st.error("유효하지 않은 토큰입니다.")         
     else:
-        # URL에서 받은 토큰을 디코딩
-        try:
-            st.session_state.id_token = token
-            decoded_token = jwt.decode(token, options={"verify_signature": False})
-            st.session_state.decoded_token = decoded_token
-            user_email = st.session_state.decoded_token['email']            
-            if not user_email:
-                st.error("이메일 정보가 없습니다.")
-        except jwt.ExpiredSignatureError:
-            st.error("토큰이 만료되었습니다.")
-        except jwt.InvalidTokenError:
-            st.error("유효하지 않은 토큰입니다.")
+        if token is None:
+            try:
+                user_email = st.session_state.decoded_token['email']
+            except:
+                st.error("유효하지 않은 토큰입니다.")  
+        else:
+            # URL에서 받은 토큰을 디코딩
+            try:
+                st.session_state.id_token = token
+                decoded_token = jwt.decode(token, options={"verify_signature": False})
+                st.session_state.decoded_token = decoded_token
+                user_email = st.session_state.decoded_token['email']            
+                if not user_email:
+                    st.error("이메일 정보가 없습니다.")
+            except jwt.ExpiredSignatureError:
+                st.error("토큰이 만료되었습니다.")
+            except jwt.InvalidTokenError:
+                st.error("유효하지 않은 토큰입니다.")
 
         # Firebase에서 데이터 가져오기
         diary_data, emotion_data, solution_data = get_diary_and_emotion(date, user_email)
