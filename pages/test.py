@@ -1,6 +1,25 @@
 import streamlit as st
 from utils.solution_functions import get_activity_details, display_content
 
+
+
+# 날짜 선택 위젯
+selected_date = st.date_input("날짜 선택", value=datetime.today())
+
+# 이전/다음 날짜 버튼
+col1, col2 = st.columns([1, 1])
+with col1:
+    if st.button("이전"):
+        selected_date -= timedelta(days=1)
+with col2:
+    if st.button("다음"):
+        selected_date += timedelta(days=1)
+
+# 선택된 날짜 표시
+st.write(f"선택된 날짜: {selected_date.strftime('%Y-%m-%d')}")
+
+
+
 # activities_ref = st.session_state.db.collection('activities').stream()
 # st.write(activities_ref)
 # st.write("---")
