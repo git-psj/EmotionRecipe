@@ -155,7 +155,8 @@ def diary_popup(selected_date):
                 st.text_area(label="일기 내용", value=diary_data['content'])
                 
                 # 이미지 URL이 있으면 표시
-                if diary_data.get('image'):
+                uploaded_images = diary_data.get('image')
+                if uploaded_images:
                     for img in uploaded_images:
                         st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")
                 else:
