@@ -22,6 +22,7 @@ with col1:
 with col2:
     if st.button("다음"):
         st.session_state.selected_date += timedelta(days=1)
+        st.rerun()
 
 # 선택된 날짜 표시
 st.write(f"선택된 날짜: {st.session_state.selected_date.strftime('%Y-%m-%d')}")
