@@ -127,6 +127,14 @@ def diary_popup(selected_date):
                     submit_button = st.form_submit_button(label="삭제")
                     if submit_button:
                         # 일기 삭제
+                        images = doc_ref.get().to_dict().get('images')  # 일기 문서에서 이미지 URL 가져오기
+                        if images:
+                            bucket = storage.bucket(st.session_state.firebase_credentials['storageBucket'])
+                            for image_url in images:
+                                image_filename = image_url.split('/')[-1]
+                                # Firebase Storage에서 해당 이미지 삭제
+                                blob = bucket.blob(image_filename)
+                                blob.delete()
                         doc_ref.collection('diaries').document(date).delete()
                         if doc_ref.collection('emtions').document(date):
                             doc_ref.collection('emtions').document(date).delete()
