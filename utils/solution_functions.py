@@ -260,6 +260,7 @@ def display_solution_page(date, token):
             solution_date = st.date_input("날짜 선택", value=st.session_state.solution_date, label_visibility="collapsed")
             if solution_date != st.session_state.solution_date:
                 st.session_state.solution_date = solution_date        
+                st.rerun()  # 날짜가 변경되면 페이지를 새로 고침      
         with c3:
             # 다음 버튼
             if st.button("다음", key="next"):
