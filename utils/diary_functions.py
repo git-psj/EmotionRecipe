@@ -146,7 +146,8 @@ def diary_popup(selected_date):
                 
                 # 이미지 URL이 있으면 표시
                 if diary_data.get('image'):
-                    st.image(diary_data['image'], caption="업로드된 이미지")
+                    for img in uploaded_images:
+                        st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")
                 else:
                     st.write("이미지가 없습니다.")
                     
@@ -191,17 +192,12 @@ def diary_popup(selected_date):
                 '''
                 st.markdown(css, unsafe_allow_html=True)
                 
-                # 업로드된 모든 이미지 확인
-                if uploaded_images:
-                    for img in uploaded_images:
-                        st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")
-                        
+               
                 # 폼 제출 버튼이 눌린 경우
                 if submit_button:
                     if content:                        
                         # 사용자 이메일 가져오기                        
                         image_urls = []
-
                         # 이미지들이 업로드된 경우 Firebase Storage에 저장
                         if uploaded_images:
                             bucket = storage.bucket(st.session_state.firebase_credentials['storageBucket'])
