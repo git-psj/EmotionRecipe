@@ -194,14 +194,14 @@ def display_content(url):
         """
         st.markdown(iframe_code, unsafe_allow_html=True)
 
-# 솔루션 페이지 함수
-def display_solution_page(date, token):
-    st.title("감정 레시피")
-    st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 결과 확인하기</h3>", unsafe_allow_html=True)
+
+@st.cache_data
+def load_data(date, token):
     if token is None and date is None:
         try: # 솔루션 페이지를 눌렀을 때
             user_email = st.session_state.decoded_token['email']
             date, diary_data, emotion_data, solution_data = get_latest_diary_and_emotion(user_email)
+            return date, diary_data, emotion_data, solution_data
         except:
             st.error("유효하지 않은 토큰입니다.")
     else:
@@ -220,14 +220,21 @@ def display_solution_page(date, token):
 
         # Firebase에서 데이터 가져오기
         diary_data, emotion_data, solution_data = get_diary_and_emotion(date, user_email)
+        return date, diary_data, emotion_data, solution_data
 
+
+# 솔루션 페이지 함수
+def display_solution_page(date, token):
+    st.title("감정 레시피")
+    st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 결과 확인하기</h3>", unsafe_allow_html=True)
+    date, diary_data, emotion_data, solution_data = load_data(date, token)
+    
     # 페이지 레이아웃 설정 (좌우 컬럼)
     col1, col2 = st.columns([1, 1])
 
     # 좌측: 일기 내용 표시
     with col1:
-        st.subheader("📝 일기 내용")
-        
+        st.subheader("📝 일기 내용")        
         st.session_state.selected_date = datetime.strptime(date, "%Y-%m-%d").date()
         c1, c2, c3 = st.columns([1, 3, 1])
         with c1:
@@ -235,13 +242,11 @@ def display_solution_page(date, token):
             if st.button("이전", key="previous"):
                 st.session_state.selected_date -= timedelta(days=1)
                 st.rerun()
-
         with c2:
             # 날짜 선택 위젯
             selected_date = st.date_input("날짜 선택", value=st.session_state.selected_date, label_visibility="collapsed")
             if selected_date != st.session_state.selected_date:
-                st.session_state.selected_date = selected_date
-        
+                st.session_state.selected_date = selected_date        
         with c3:
             # 다음 버튼
             if st.button("다음", key="next"):
@@ -270,8 +275,10 @@ def display_solution_page(date, token):
                 highlighted_content = highlighted_content.replace(keyword, f"<span style='background-color: {emotion_colors[emoticon]}; padding: 0.2em;'>{keyword}</span>")
 
         st.markdown(highlighted_content, unsafe_allow_html=True)  # 일기 내용 표시 (수정 불가)
-        if diary_data.get('image'):
-            st.image(diary_data.get('image'))
+        uploaded_images = diary_data.get('image')
+        if uploaded_images:
+            for img in uploaded_images:
+                st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")            
 
     # 우측: 솔루션 표시
     with col2:
