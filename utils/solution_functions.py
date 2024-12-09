@@ -197,7 +197,7 @@ def display_content(url):
 
 @st.cache_data
 def load_data(date, token):
-    st.write(date, token)
+    st.write(date, token, type(date))
     if date is None:
         if token is None:
             try: # 솔루션 페이지를 눌렀을 때     
@@ -208,7 +208,7 @@ def load_data(date, token):
             except:
                 st.error("유효하지 않은 토큰입니다.")         
     else:
-        date_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime.date) else "날짜 정보 없음"
+        date_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime) else "날짜 정보 없음"
         st.write(date_str)
         if token is None:
             try:
