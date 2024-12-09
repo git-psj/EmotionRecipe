@@ -282,7 +282,7 @@ def display_solution_page(date, token):
 
     # 우측: 솔루션 표시
     with col2:
-        st.subheader(f"{emoticon}\t{emotion}")
+        st.subheader(f"{emoticon}\t{emotion}\t{emotion_data.get("감정 수치","")}/10")
         st.write(emotion_data.get("평가", ""))
         try:
             st.write(f"## 🔍추천 활동")
