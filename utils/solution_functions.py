@@ -1,7 +1,7 @@
 import random
 import jwt
 import streamlit as st
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
 # recommend_activity(emotion, score), get_activity_details(recommended_activity), check_previous_solution(user_email, url), display_solution_page(), get_latest_diary_and_emotion(user_email), get_diary_and_emotion(date, user_email), recommend_and_save_solution(user_email, emotion, score), save_solution_to_db(user_email, emotion, score, recommended_activity, activity_detail)
@@ -177,7 +177,7 @@ def get_token_date():
     token = st.query_params.get('token', None)
     return date, token
 
-# 결과 보여주기
+# 결과 링크 보여주기
 def display_content(url):
     if url.endswith(('.jpg', '.png', '.jpeg', '.gif', '.bmp', '.webp')):
         # 이미지 표시
@@ -227,7 +227,7 @@ def display_solution_page(date, token):
     # 좌측: 일기 내용 표시
     with col1:
         st.subheader("📝 일기 내용")
-        
+        st.session_state.selected_date = date
         col1, col2, col3 = st.columns([1, 3, 1])
         with col1:
             # 이전 버튼
