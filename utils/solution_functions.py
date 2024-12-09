@@ -204,7 +204,12 @@ def load_data(date, token):
             st.error("유효하지 않은 토큰입니다.")
         if date is None:               
             date, diary_data, emotion_data, solution_data = get_latest_diary_and_emotion(user_email)
-            return date, diary_data, emotion_data, solution_data       
+            st.write("+++++++", date, diary_data, emotion_data, solution_data)
+            return date, diary_data, emotion_data, solution_data
+        else:
+            diary_data, emotion_data, solution_data = get_diary_and_emotion(date, user_email)
+            st.write("111111111111", date, diary_data, emotion_data, solution_data)
+            return date, diary_data, emotion_data, solution_data
     else:
         # URL에서 받은 토큰을 디코딩
         try:
@@ -221,6 +226,7 @@ def load_data(date, token):
 
         # Firebase에서 데이터 가져오기
         diary_data, emotion_data, solution_data = get_diary_and_emotion(date, user_email)
+        st.write("____", date, diary_data, emotion_data, solution_data)
         return date, diary_data, emotion_data, solution_data
 
 
