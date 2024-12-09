@@ -2,9 +2,9 @@ import streamlit as st
 from utils.solution_functions import get_activity_details, display_content
 from datetime import datetime, timedelta
 
-
+selected_date = datetime.today()
 # 날짜 선택 위젯
-selected_date = st.date_input("날짜 선택", value=datetime.today())
+selected_date = st.date_input("날짜 선택", value=selected_date)
 
 # 이전/다음 날짜 버튼
 col1, col2 = st.columns([1, 1])
