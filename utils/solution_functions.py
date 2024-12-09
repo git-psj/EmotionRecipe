@@ -227,7 +227,8 @@ def display_solution_page(date, token):
     # 좌측: 일기 내용 표시
     with col1:
         st.subheader("📝 일기 내용")
-        st.session_state.selected_date = date
+        
+        st.session_state.selected_date = datetime.strptime(date, "%Y-%m-%d").date()
         col1, col2, col3 = st.columns([1, 3, 1])
         with col1:
             # 이전 버튼
