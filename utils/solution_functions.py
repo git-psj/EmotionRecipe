@@ -227,8 +227,27 @@ def display_solution_page(date, token):
     # 좌측: 일기 내용 표시
     with col1:
         st.subheader("📝 일기 내용")
+        
+        col1, col2, col3 = st.columns([1, 3, 1])
+        with col1:
+            # 이전 버튼
+            if st.button("이전", key="previous"):
+                st.session_state.selected_date -= timedelta(days=1)
+                st.rerun()
 
-        st.markdown(f"**날짜**: {date}")
+        with col2:
+            # 날짜 선택 위젯
+            selected_date = st.date_input("날짜 선택", value=st.session_state.selected_date, label_visibility="collapsed")
+            if selected_date != st.session_state.selected_date:
+                st.session_state.selected_date = selected_date
+        
+        with col3:
+            # 다음 버튼
+            if st.button("다음", key="next"):
+                st.session_state.selected_date += timedelta(days=1)
+                st.rerun()
+
+        st.markdown(f"**날짜**: {st.session_state.selected_date.strftime('%Y-%m-%d')}")
         emotion_colors = emotion_colors = {
             '😁': '#FFEB99',  # 파스텔 노랑
             '😭': '#A8D5E2',  # 파스텔 블루
