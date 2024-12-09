@@ -265,33 +265,35 @@ def display_solution_page(date, token):
             if st.button("다음", key="next"):
                 st.session_state.solution_date += timedelta(days=1)
                 st.rerun()
-
-        st.markdown(f"**날짜**: {st.session_state.solution_date.strftime('%Y-%m-%d')}")
-        emotion_colors = emotion_colors = {
-            '😁': '#FFEB99',  # 파스텔 노랑
-            '😭': '#A8D5E2',  # 파스텔 블루
-            '😠': '#FFADAD',  # 파스텔 레드
-            '😨': '#D3D3D3',  # 파스텔 그레이
-            '😆': '#FFD9B3',  # 파스텔 오렌지
-            '😮': '#CBAACB',  # 파스텔 퍼플
-            '🥰': '#B5EAD7',  # 파스텔 그린
-            '🤬': '#E4C1F9',  # 파스텔 브라운
-        } 
-        emotion_colors['알 수 없음'] = 'gray'
-        emotion = emotion_data.get("대표 감정", "알 수 없음")
-        emoticon = emotion_data.get("이모티콘", "")
-        highlighted_content = diary_data.get('content')
-        keywords = emotion_data.get("근거 문장", "")
-        for keyword in keywords:
-            if keyword in highlighted_content:
-                # 근거 문장에 <mark> 태그 추가
-                highlighted_content = highlighted_content.replace(keyword, f"<span style='background-color: {emotion_colors[emoticon]}; padding: 0.2em;'>{keyword}</span>")
-
-        st.markdown(highlighted_content, unsafe_allow_html=True)  # 일기 내용 표시 (수정 불가)
-        uploaded_images = diary_data.get('images')
-        if uploaded_images:
-            for img in uploaded_images:
-                st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}")            
+        try:
+            st.markdown(f"**날짜**: {st.session_state.solution_date.strftime('%Y-%m-%d')}")
+            emotion_colors = emotion_colors = {
+                '😁': '#FFEB99',  # 파스텔 노랑
+                '😭': '#A8D5E2',  # 파스텔 블루
+                '😠': '#FFADAD',  # 파스텔 레드
+                '😨': '#D3D3D3',  # 파스텔 그레이
+                '😆': '#FFD9B3',  # 파스텔 오렌지
+                '😮': '#CBAACB',  # 파스텔 퍼플
+                '🥰': '#B5EAD7',  # 파스텔 그린
+                '🤬': '#E4C1F9',  # 파스텔 브라운
+            } 
+            emotion_colors['알 수 없음'] = 'gray'
+            emotion = emotion_data.get("대표 감정", "알 수 없음")
+            emoticon = emotion_data.get("이모티콘", "")
+            highlighted_content = diary_data.get('content')
+            keywords = emotion_data.get("근거 문장", "")
+            for keyword in keywords:
+                if keyword in highlighted_content:
+                    # 근거 문장에 <mark> 태그 추가
+                    highlighted_content = highlighted_content.replace(keyword, f"<span style='background-color: {emotion_colors[emoticon]}; padding: 0.2em;'>{keyword}</span>")
+    
+            st.markdown(highlighted_content, unsafe_allow_html=True)  # 일기 내용 표시 (수정 불가)
+            uploaded_images = diary_data.get('images')
+            if uploaded_images:
+                for img in uploaded_images:
+                    st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}") 
+        except:
+            st.info("해당 날짜의 일기가 없습니다.")
 
     # 우측: 솔루션 표시
     with col2:
