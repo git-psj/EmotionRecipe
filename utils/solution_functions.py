@@ -235,25 +235,25 @@ def display_solution_page(date, token):
     # 좌측: 일기 내용 표시
     with col1:
         st.subheader("📝 일기 내용")        
-        st.session_state.selected_date = datetime.strptime(date, "%Y-%m-%d").date()
+        st.session_state.solution_date = datetime.strptime(date, "%Y-%m-%d").date()
         c1, c2, c3 = st.columns([1, 3, 1])
         with c1:
             # 이전 버튼
             if st.button("이전", key="previous"):
-                st.session_state.selected_date -= timedelta(days=1)
+                st.session_state.solution_date -= timedelta(days=1)
                 st.rerun()
         with c2:
             # 날짜 선택 위젯
-            selected_date = st.date_input("날짜 선택", value=st.session_state.selected_date, label_visibility="collapsed")
-            if selected_date != st.session_state.selected_date:
-                st.session_state.selected_date = selected_date        
+            solution_date = st.date_input("날짜 선택", value=st.session_state.solution_date, label_visibility="collapsed")
+            if solution_date != st.session_state.solution_date:
+                st.session_state.solution_date = solution_date        
         with c3:
             # 다음 버튼
             if st.button("다음", key="next"):
-                st.session_state.selected_date += timedelta(days=1)
+                st.session_state.solution_date += timedelta(days=1)
                 st.rerun()
 
-        st.markdown(f"**날짜**: {st.session_state.selected_date.strftime('%Y-%m-%d')}")
+        st.markdown(f"**날짜**: {st.session_state.solution_date.strftime('%Y-%m-%d')}")
         emotion_colors = emotion_colors = {
             '😁': '#FFEB99',  # 파스텔 노랑
             '😭': '#A8D5E2',  # 파스텔 블루
