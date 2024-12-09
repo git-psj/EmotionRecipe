@@ -208,7 +208,7 @@ def load_data(date, token):
             except:
                 st.error("유효하지 않은 토큰입니다.")         
     else:
-        date_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime) else "날짜 정보 없음"
+        date_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime.date) else date
         st.write(date_str)
         if token is None:
             try:
