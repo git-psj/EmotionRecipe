@@ -6,6 +6,7 @@ import streamlit as st
 from datetime import datetime
 from urllib.parse import urlencode
 from .emotion_functions import analyze_emotion
+from urllib.parse import unquote
 
 # fetch_emotions_for_month, get_emotions_for_month, display_calendar, move_month, year_selector, diary_popup, diary_page, showDiaries
 
@@ -132,6 +133,7 @@ def diary_popup(selected_date):
                             bucket = storage.bucket(st.session_state.firebase_credentials['storageBucket'])
                             for image_url in images:
                                 image_filename = image_url.split('/')[-1]
+                                image_filename = unquote(image_filename)
                                 # Firebase Storage에서 해당 이미지 삭제
                                 blob = bucket.blob(image_filename)
                                 blob.delete()
