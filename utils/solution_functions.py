@@ -197,19 +197,15 @@ def display_content(url):
 
 @st.cache_data
 def load_data(date, token):
-    if token is None:
-        try: # 솔루션 페이지를 눌렀을 때     
-            user_email = st.session_state.decoded_token['email']
-        except:
-            st.error("유효하지 않은 토큰입니다.")
-        if date is None:               
-            date, diary_data, emotion_data, solution_data = get_latest_diary_and_emotion(user_email)
-            st.write("+++++++", date, diary_data, emotion_data, solution_data)
-            return date, diary_data, emotion_data, solution_data
-        else:
-            diary_data, emotion_data, solution_data = get_diary_and_emotion(date, user_email)
-            st.write("111111111111", date, diary_data, emotion_data, solution_data)
-            return date, diary_data, emotion_data, solution_data
+    if date is None:
+        if token is None:
+            try: # 솔루션 페이지를 눌렀을 때     
+                user_email = st.session_state.decoded_token['email']
+                date, diary_data, emotion_data, solution_data = get_latest_diary_and_emotion(user_email)
+                st.write("+++++++", date, diary_data, emotion_data, solution_data)
+                return date, diary_data, emotion_data, solution_data
+            except:
+                st.error("유효하지 않은 토큰입니다.")         
     else:
         # URL에서 받은 토큰을 디코딩
         try:
