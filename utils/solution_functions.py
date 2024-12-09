@@ -203,13 +203,13 @@ def load_data(date, token):
             try: # 솔루션 페이지를 눌렀을 때     
                 user_email = st.session_state.decoded_token['email']
                 date, diary_data, emotion_data, solution_data = get_latest_diary_and_emotion(user_email)
-                st.write("+++++++", date, diary_data, emotion_data, solution_data)
+                # st.write("+++++++", date, diary_data, emotion_data, solution_data)
                 return date, diary_data, emotion_data, solution_data
             except:
                 st.error("유효하지 않은 토큰입니다.")         
     else:
         date_str = date.strftime("%Y-%m-%d")
-        st.write(date_str)
+        # st.write(date_str)
         if token is None:
             try:
                 user_email = st.session_state.decoded_token['email']
@@ -231,7 +231,7 @@ def load_data(date, token):
 
         # Firebase에서 데이터 가져오기
         diary_data, emotion_data, solution_data = get_diary_and_emotion(date_str, user_email)
-        st.write("____", date_str, diary_data, emotion_data, solution_data)
+        # st.write("____", date_str, diary_data, emotion_data, solution_data)
         return date, diary_data, emotion_data, solution_data
 
 
