@@ -229,20 +229,20 @@ def display_solution_page(date, token):
         st.subheader("📝 일기 내용")
         
         st.session_state.selected_date = datetime.strptime(date, "%Y-%m-%d").date()
-        col1, col2, col3 = st.columns([1, 3, 1])
-        with col1:
+        c1, c2, c3 = st.columns([1, 3, 1])
+        with c1:
             # 이전 버튼
             if st.button("이전", key="previous"):
                 st.session_state.selected_date -= timedelta(days=1)
                 st.rerun()
 
-        with col2:
+        with c2:
             # 날짜 선택 위젯
             selected_date = st.date_input("날짜 선택", value=st.session_state.selected_date, label_visibility="collapsed")
             if selected_date != st.session_state.selected_date:
                 st.session_state.selected_date = selected_date
         
-        with col3:
+        with c3:
             # 다음 버튼
             if st.button("다음", key="next"):
                 st.session_state.selected_date += timedelta(days=1)
