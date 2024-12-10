@@ -26,7 +26,6 @@ def verify_password():
 def get_user_info(email):
     try:
         user_doc = st.session_state.db.collection("users").document(email).get()
-        st.write(user_doc)
         if user_doc.exists:
             return user_doc.to_dict()
         else:
@@ -67,9 +66,7 @@ def delete_user_account(email):
 
 # 마이페이지 함수
 def mypage(email):
-    st.write(email)
     user_info = get_user_info(email)
-    st.write(user_info)
     if user_info:
         st.text(f"이메일: {email}")
         nickname = st.text_input("닉네임", value=user_info.get("nickname", ""))
