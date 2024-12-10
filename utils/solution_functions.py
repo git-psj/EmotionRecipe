@@ -292,7 +292,7 @@ def display_solution_page(date, token):
             uploaded_images = diary_data.get('images')
             if uploaded_images:
                 for img in uploaded_images:
-                    st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}") 
+                    st.image(img) 
         except:
             st.info("해당 날짜의 일기가 없습니다.")
 
