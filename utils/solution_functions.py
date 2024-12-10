@@ -249,6 +249,7 @@ def display_solution_page(date, token):
     with col1:
         st.subheader("📝 일기 내용")        
         st.session_state.solution_date = date
+        st.write(st.session_state.solution_date)
         c1, c2, c3 = st.columns([1, 3, 1])
         with c1:
             # 이전 버튼
