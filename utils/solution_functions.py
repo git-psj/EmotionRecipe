@@ -1,4 +1,3 @@
-
 import random
 import jwt
 import streamlit as st
@@ -209,8 +208,6 @@ def load_data(date, token):
             except:
                 st.error("유효하지 않은 토큰입니다.")         
     else:
-        date_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime) else date
-        # st.write(date_str)
         if token is None:
             try:
                 user_email = st.session_state.decoded_token['email']
@@ -240,8 +237,8 @@ def load_data(date, token):
 def display_solution_page(date, token):
     st.title("감정 레시피")
     st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 결과 확인하기</h3>", unsafe_allow_html=True)
-    # st.write(date, token)
-    date, diary_data, emotion_data, solution_data = load_data(date, token)
+    date_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime) else date
+    date, diary_data, emotion_data, solution_data = load_data(date_str, token)
     
     # 페이지 레이아웃 설정 (좌우 컬럼)
     col1, col2 = st.columns([1, 1])
@@ -249,7 +246,7 @@ def display_solution_page(date, token):
     # 좌측: 일기 내용 표시
     with col1:
         st.subheader("📝 일기 내용")        
-        st.session_state.solution_date = datetime.strptime(date, "%Y-%m-%d").date() if isinstance(date, str) else date
+        st.session_state.solution_date = datetime.strptime(date_str, "%Y-%m-%d").date()
         c1, c2, c3 = st.columns([1, 3, 1])
         with c1:
             # 이전 버튼
@@ -293,7 +290,7 @@ def display_solution_page(date, token):
             uploaded_images = diary_data.get('images')
             if uploaded_images:
                 for img in uploaded_images:
-                    st.image(img, caption=f"업로드된 이미지 {uploaded_images.index(img)+1}") 
+                    st.image(img) 
         except:
             st.info("해당 날짜의 일기가 없습니다.")
 
