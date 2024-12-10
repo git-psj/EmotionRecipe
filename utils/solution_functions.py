@@ -237,7 +237,10 @@ def load_data(date, token):
 def display_solution_page(date, token):
     st.title("감정 레시피")
     st.markdown("<h3 style='color: gray; margin-top: -10px;'>&nbsp;- 결과 확인하기</h3>", unsafe_allow_html=True)
-    date_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime) else date
+    try:
+        date_str = date.strftime("%Y-%m-%d")
+    except:
+        date_str = date
     st.write(date_str, type(date_str))
     date, diary_data, emotion_data, solution_data = load_data(date_str, token)
     
