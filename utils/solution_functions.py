@@ -248,8 +248,7 @@ def display_solution_page(date, token):
     # 좌측: 일기 내용 표시
     with col1:
         st.subheader("📝 일기 내용")        
-        st.session_state.solution_date = date
-        st.write(st.session_state.solution_date)
+        st.session_state.solution_date = datetime.strptime(date, "%Y-%m-%d").date() if isinstance(date, str) else date
         c1, c2, c3 = st.columns([1, 3, 1])
         with c1:
             # 이전 버튼
