@@ -228,7 +228,7 @@ def load_data(date, token):
                 st.error("유효하지 않은 토큰입니다.")
 
         # Firebase에서 데이터 가져오기
-        diary_data, emotion_data, solution_data = get_diary_and_emotion(date_str, user_email)
+        diary_data, emotion_data, solution_data = get_diary_and_emotion(date, user_email)
         # st.write("____", date_str, diary_data, emotion_data, solution_data)
         return date, diary_data, emotion_data, solution_data
 
@@ -241,7 +241,7 @@ def display_solution_page(date, token):
         date_str = date.strftime("%Y-%m-%d")
     except:
         date_str = date
-    st.write(date_str, type(date_str))
+    # st.write(date_str, type(date_str))
     date, diary_data, emotion_data, solution_data = load_data(date_str, token)
     
     # 페이지 레이아웃 설정 (좌우 컬럼)
