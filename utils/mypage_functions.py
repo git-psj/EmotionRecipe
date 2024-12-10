@@ -26,6 +26,7 @@ def verify_password():
 def get_user_info(email):
     try:
         user_doc = st.session_state.db.collection("users").document(email).get()
+        st.write(user_doc)
         if user_doc.exists:
             return user_doc.to_dict()
         else:
