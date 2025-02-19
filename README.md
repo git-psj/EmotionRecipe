@@ -4,4 +4,4 @@
 ![포스터](readmeFIles/poster.png)
 
 ## 발표 자료
-![ppt](readmeFIles/emotionrecipe_ppt.jpg)
+![ppt](readmeFIles/EmotionRecipe_ppt.jpg)
